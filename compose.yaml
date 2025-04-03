@@ -1,0 +1,46 @@
+name: event-net
+
+services:
+  neo4j:
+    image: neo4j:2025.03.0
+    container_name: neo4j
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_import:/import
+    environment:
+        - NEO4J_AUTH=neo4j/your_password
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "your_password", "RETURN 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  api:
+    build:
+      context: ./api/
+    container_name: api
+    volumes:
+      - cargo_cache:/usr/local/cargo
+      - target_cache:/app/target
+    environment:
+      - ROCKET_ADDRESS=0.0.0.0
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    command: sh -c "/usr/local/cargo/bin/cargo-watch -x run"
+    develop:
+      watch:
+        - action: sync
+          path: ./api
+          target: /app
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_import:
+  cargo_cache:
+  target_cache:
