@@ -15,8 +15,6 @@ impl Neo4jConnection {
 
         let graph = Arc::new(Graph::connect(config).await?);
 
-        // let xd = graph.execute(crate::query("MATCH (n:Movie) RETURN n").param("limit", 10))
-
         Ok(Neo4jConnection { graph })
     }
 }
