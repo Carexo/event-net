@@ -1,5 +1,9 @@
 # event-net
 
+**Created by**:
+ - Bartosz Czyż
+ - Marceli Mietła
+
 ## How to run
 
 > [!WARNING]
