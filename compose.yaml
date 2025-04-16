@@ -8,13 +8,14 @@ services:
       - neo4j_data:/data
       - neo4j_logs:/logs
       - neo4j_import:/import
+    env_file: ".env"
     environment:
-        - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASSWORD}
+        - NEO4J_AUTH=${DB_USER}/${DB_PASSWORD}
     ports:
       - "7474:7474"
       - "7687:7687"
     healthcheck:
-      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "your_password", "RETURN 1"]
+      test: ["CMD", "cypher-shell", "-u", "$DB_USER", "-p", "$DB_PASSWORD", "RETURN 1"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -22,6 +23,7 @@ services:
     build:
       context: ./api/
     container_name: api
+    env_file: ".env"
     volumes:
       - cargo_cache:/usr/local/cargo
       - target_cache:/app/target
