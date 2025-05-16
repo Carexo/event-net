@@ -6,16 +6,18 @@
 
 ## How to run
 
+1. Copy `.env.example` as `.env` and change values if needed.
+
+2. Run command in the app's root folder:
+
 > [!WARNING]
 > You have to had installed docker
-
-Run command in the app's root folder:
 
 ```
 docker compose up
 ```
 
-To auto reload after file change:
+Or to auto reload after file change:
 
 ```
 docker compose up --watch
