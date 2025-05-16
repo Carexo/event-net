@@ -22,3 +22,6 @@ Or to auto reload after file change:
 ```
 docker compose up --watch
 ```
+## Data model
+
+![data model](./graph.svg)
