@@ -1,0 +1,527 @@
+user_name;event_id;event_name;start_datetime
+adamcrane;320;Climate Change Conference 2023;2022-07-18T18:00:00
+adamcrane;326;Environmental Science Conference 2023;2022-11-19T22:00:00
+adamcrane;322;Neuroscience Conference 2023;2021-04-26T01:00:00
+adamcrane;321;Genetics and Genomics Conference 2023;2024-06-14T14:00:00
+adamcrane;325;Biology Conference 2023;2022-06-16T02:00:00
+adamcrane;331;Chemistry Conference 2028;2027-11-14T15:00:00
+vgraves;209;Ballet Recital;2023-11-10T05:00:00
+vgraves;214;Ballroom Dance Showcase;2022-09-20T01:00:00
+vgraves;215;Jazz Dance Performance;2020-03-04T01:00:00
+vgraves;212;Zumba Dance Party;2020-12-18T07:00:00
+vgraves;213;Contemporary Dance Workshop;2020-01-01T13:00:00
+vgraves;204;Intermediate Ballet Workshop;2024-05-15T22:00:00
+vgraves;211;Salsa Dance Festival;2020-03-23T03:00:00
+vgraves;208;Jazz Dance Workshop;2022-06-02T02:00:00
+vgraves;205;Salsa Social Dance Night;2021-01-17T09:00:00
+vgraves;231;Zumba Dance Class;2028-12-23T08:00:00
+vgraves;223;Salsa Dance Festival;2029-04-03T16:00:00
+vgraves;225;Contemporary Dance Workshop;2026-10-17T07:00:00
+curtis17;184;Gwent Masters 2023;2021-05-19T05:00:00
+curtis17;186;KeyForge World Championship 2023;2021-05-20T19:00:00
+curtis17;188;Magic: The Gathering World Championship 2023;2024-04-14T04:00:00
+curtis17;192;World Championship of Online Poker 2023;2021-01-11T03:00:00
+curtis17;189;World Championship of Online Poker 2023;2022-11-07T13:00:00
+curtis17;193;World Series of Poker 2028;2027-09-21T01:00:00
+curtis17;201;Magic: The Gathering World Championship 2028;2029-09-20T23:00:00
+curtis17;202;World Championship of Online Poker 2028;2028-12-17T10:00:00
+richardsontina;91;FIVB Grand Prix Final;2022-02-18T23:00:00
+richardsontina;88;NCAA Volleyball Championship;2020-06-17T13:00:00
+richardsontina;101;FIVB U21 World Championship Final;2026-03-07T19:00:00
+richardsontina;98;FIVB Grand Prix 2027;2028-09-02T13:00:00
+omoore;323;Physics and Astronomy Conference 2023;2021-06-08T20:00:00
+omoore;324;Chemistry Conference 2023;2024-08-20T03:00:00
+omoore;320;Climate Change Conference 2023;2022-07-18T18:00:00
+omoore;327;Climate Change Conference 2028;2030-12-21T21:00:00
+omoore;328;Genetics and Genomics Conference 2028;2026-06-09T04:00:00
+jennyabbott;209;Ballet Recital;2023-11-10T05:00:00
+jennyabbott;207;Ballroom Dance Competition;2023-01-12T10:00:00
+jennyabbott;210;Hip Hop Dance Battle;2022-04-25T13:00:00
+jennyabbott;213;Contemporary Dance Workshop;2020-01-01T13:00:00
+jennyabbott;214;Ballroom Dance Showcase;2022-09-20T01:00:00
+jennyabbott;204;Intermediate Ballet Workshop;2024-05-15T22:00:00
+jennyabbott;231;Zumba Dance Class;2028-12-23T08:00:00
+stewartvictoria;184;Gwent Masters 2023;2021-05-19T05:00:00
+stewartvictoria;182;Yu-Gi-Oh! World Championship 2023;2022-03-13T09:00:00
+stewartvictoria;192;World Championship of Online Poker 2023;2021-01-11T03:00:00
+stewartvictoria;198;Flesh and Blood World Championship 2028;2027-09-06T02:00:00
+stewartvictoria;202;World Championship of Online Poker 2028;2028-12-17T10:00:00
+stewartvictoria;193;World Series of Poker 2028;2027-09-21T01:00:00
+angela81;61;EuroLeague Championship;2023-01-10T14:00:00
+angela81;63;Olympic Basketball Final;2023-03-03T20:00:00
+angela81;60;NBA Finals Game 7 2024;2020-09-22T12:00:00
+angela81;69;Olympic Basketball Qualifiers;2030-01-01T20:00:00
+angela81;67;FIBA World Cup 2027;2029-11-24T14:00:00
+angela81;68;NCAA Final Four 2028;2027-10-25T06:00:00
+matthewbrown;260;Big Data and Analytics Conference 2023;2023-09-12T05:00:00
+matthewbrown;270;Internet of Things (IoT) Conference 2028;2026-04-27T19:00:00
+matthewbrown;267;Cybersecurity and Data Protection Conference 2028;2026-06-14T22:00:00
+barrylee;263;5G Technology Conference 2023;2021-05-07T12:00:00
+barrylee;260;Big Data and Analytics Conference 2023;2023-09-12T05:00:00
+barrylee;264;Quantum Computing Conference 2023;2021-03-25T08:00:00
+barrylee;262;Augmented Reality and Virtual Reality Conference 2023;2022-02-05T19:00:00
+barrylee;275;Future of Quantum Computing Conference 2028;2029-03-04T02:00:00
+fwatts;25;EDC Las Vegas 2023;2024-09-07T17:00:00
+fwatts;28;Creamfields UK 2029;2028-08-21T15:00:00
+kaylawhite;64;FIBA EuroBasket Final;2023-12-27T15:00:00
+kaylawhite;60;NBA Finals Game 7 2024;2020-09-22T12:00:00
+kaylawhite;71;WNBA All-Star Game;2028-07-13T15:00:00
+stonerichard;3;Foo Fighters Concrete and Gold Tour;2023-10-08T14:00:00
+stonerichard;2;Arctic Monkeys Live 2023;2022-11-19T05:00:00
+stonerichard;5;Future Rock Fest 2026;2030-09-23T16:00:00
+jennamcdonald;295;Vegan Cooking Class;2023-04-26T06:00:00
+jennamcdonald;288;French Cuisine Cooking Class;2024-11-23T01:00:00
+jennamcdonald;290;Mexican Cuisine Cooking Class;2023-05-08T12:00:00
+jennamcdonald;296;Gluten-Free Cooking Class;2020-02-17T15:00:00
+jennamcdonald;303;Baking Basics Cooking Class;2029-02-21T08:00:00
+richard88;326;Environmental Science Conference 2023;2022-11-19T22:00:00
+richard88;323;Physics and Astronomy Conference 2023;2021-06-08T20:00:00
+richard88;328;Genetics and Genomics Conference 2028;2026-06-09T04:00:00
+richard88;331;Chemistry Conference 2028;2027-11-14T15:00:00
+anthonytorres;324;Chemistry Conference 2023;2024-08-20T03:00:00
+anthonytorres;326;Environmental Science Conference 2023;2022-11-19T22:00:00
+anthonytorres;328;Genetics and Genomics Conference 2028;2026-06-09T04:00:00
+beckjoshua;264;Quantum Computing Conference 2023;2021-03-25T08:00:00
+beckjoshua;259;Cloud Computing and Virtualization Conference 2023;2022-11-26T10:00:00
+beckjoshua;256;AI and Machine Learning Conference 2023;2021-02-24T04:00:00
+beckjoshua;260;Big Data and Analytics Conference 2023;2023-09-12T05:00:00
+beckjoshua;273;Quantum Computing Conference 2028;2030-10-09T01:00:00
+beckjoshua;270;Internet of Things (IoT) Conference 2028;2026-04-27T19:00:00
+julie44;311;Non-Fiction Writing Workshop;2021-08-17T20:00:00
+julie44;309;Poetry Writing Workshop;2024-05-19T09:00:00
+julie44;310;Fiction Writing Workshop;2023-06-11T17:00:00
+julie44;315;Fiction Writing Workshop;2028-04-09T02:00:00
+julie44;317;Memoir Writing Workshop;2027-11-13T02:00:00
+robertandrade;211;Salsa Dance Festival;2020-03-23T03:00:00
+robertandrade;213;Contemporary Dance Workshop;2020-01-01T13:00:00
+robertandrade;203;Beginner Hip Hop Class;2020-07-24T04:00:00
+robertandrade;212;Zumba Dance Party;2020-12-18T07:00:00
+robertandrade;208;Jazz Dance Workshop;2022-06-02T02:00:00
+robertandrade;205;Salsa Social Dance Night;2021-01-17T09:00:00
+robertandrade;230;Salsa Dance Class;2028-11-16T10:00:00
+robertandrade;235;Ballet Dance Workshop;2029-03-21T09:00:00
+lbush;258;Cybersecurity and Data Protection Conference 2023;2024-05-11T11:00:00
+lbush;262;Augmented Reality and Virtual Reality Conference 2023;2022-02-05T19:00:00
+lbush;264;Quantum Computing Conference 2023;2021-03-25T08:00:00
+lbush;275;Future of Quantum Computing Conference 2028;2029-03-04T02:00:00
+lbush;269;Big Data and Analytics Conference 2028;2029-09-16T13:00:00
+jeremy72;215;Jazz Dance Performance;2020-03-04T01:00:00
+jeremy72;208;Jazz Dance Workshop;2022-06-02T02:00:00
+jeremy72;204;Intermediate Ballet Workshop;2024-05-15T22:00:00
+jeremy72;209;Ballet Recital;2023-11-10T05:00:00
+jeremy72;214;Ballroom Dance Showcase;2022-09-20T01:00:00
+jeremy72;234;Jazz Dance Class;2027-10-13T16:00:00
+jeremy72;224;Zumba Dance Party;2030-12-07T02:00:00
+jeremy72;230;Salsa Dance Class;2028-11-16T10:00:00
+lrodriguez;294;Vegetarian Cooking Class;2024-12-11T13:00:00
+lrodriguez;296;Gluten-Free Cooking Class;2020-02-17T15:00:00
+lrodriguez;291;Indian Cuisine Cooking Class;2021-11-26T12:00:00
+lrodriguez;307;Healthy Cooking Class;2029-01-12T09:00:00
+lrodriguez;300;Mexican Cuisine Cooking Class;2030-07-10T21:00:00
+lrodriguez;305;Vegan Cooking Class;2026-07-16T21:00:00
+jeanettesmith;24;Tomorrowland Belgium 2022;2021-09-05T22:00:00
+jeanettesmith;25;EDC Las Vegas 2023;2024-09-07T17:00:00
+jeanettesmith;28;Creamfields UK 2029;2028-08-21T15:00:00
+phillipsmarc;13;Justin Bieber Purpose World Tour;2020-06-02T04:00:00
+phillipsmarc;16;Billie Eilish World Tour 2027;2029-02-04T04:00:00
+phillipsmarc;23;Shawn Mendes Wonder World Tour;2026-03-02T20:00:00
+phillipsmarc;21;Justin Bieber Justice World Tour;2030-08-15T19:00:00
+franklinbobby;122;UCI Cyclo-cross World Championships;2023-01-27T07:00:00
+franklinbobby;127;UCI Road World Championships 2028;2030-02-01T18:00:00
+franklinbobby;131;UCI Mountain Bike World Championships 2028;2027-05-17T02:00:00
+brownkimberly;151;Poznan Marathon 2023;2023-08-02T10:00:00
+brownkimberly;158;Wroclaw Half Marathon 2027;2026-03-23T17:00:00
+brownkimberly;162;Gdynia Half Marathon 2027;2027-07-02T17:00:00
+brownkimberly;165;Lodz Half Marathon 2027;2026-02-03T04:00:00
+lsutton;74;Wimbledon Men's Final 2023;2024-09-15T12:00:00
+lsutton;75;French Open Women's Semi-final;2021-04-27T23:00:00
+lsutton;79;WTA Finals 2028;2028-01-04T23:00:00
+lsutton;82;Olympic Tennis Final 2028;2028-10-01T07:00:00
+sethescobar;88;NCAA Volleyball Championship;2020-06-17T13:00:00
+sethescobar;89;AVP Beach Volleyball Final;2023-05-02T21:00:00
+sethescobar;87;FIVB World Championship Final;2022-12-12T22:00:00
+sethescobar;96;AVP Beach Volleyball Tour Finals;2028-09-04T23:00:00
+sethescobar;93;Olympic Volleyball Tournament;2028-05-08T06:00:00
+sethescobar;101;FIVB U21 World Championship Final;2026-03-07T19:00:00
+carriechavez;171;World Blitz Chess Championship 2023;2020-07-18T13:00:00
+carriechavez;168;Grand Slam Chess Tournament 2023;2024-03-08T02:00:00
+carriechavez;174;Candidates Tournament 2028;2028-10-13T22:00:00
+calvin92;137;Guided Hike in the Karkonosze Mountains;2020-10-11T11:00:00
+calvin92;136;Guided Hike in the Pieniny Mountains;2024-05-18T12:00:00
+calvin92;139;Guided Hike in the Beskidy Mountains;2020-05-24T10:00:00
+calvin92;134;Guided Hike in the Tatra Mountains;2021-11-02T22:00:00
+calvin92;146;Guided Hike in the Tatra Mountains - Winter Edition;2030-02-16T08:00:00
+steven68;123;UCI Mountain Bike World Championships;2024-09-05T22:00:00
+steven68;121;Tour of Flanders 2023;2021-06-14T07:00:00
+steven68;117;Giro d'Italia Stage 5;2020-06-05T15:00:00
+steven68;129;Tour of Flanders 2028;2028-05-02T12:00:00
+steven68;133;UCI Track Cycling World Championships 2028;2029-09-13T12:00:00
+smithmatthew;151;Poznan Marathon 2023;2023-08-02T10:00:00
+smithmatthew;150;Gdynia 10K Run 2023;2020-11-26T07:00:00
+smithmatthew;153;Lodz 10K Run 2023;2021-12-12T06:00:00
+smithmatthew;148;Warsaw Marathon 2023;2024-12-11T01:00:00
+smithmatthew;149;Krakow Half Marathon 2023;2023-08-18T10:00:00
+smithmatthew;154;Warsaw Marathon 2027;2029-03-01T17:00:00
+smithmatthew;159;Lodz 10K Run 2027;2030-09-09T11:00:00
+nadams;191;World Championship of Online Poker 2023;2022-10-12T18:00:00
+nadams;180;World Series of Poker 2023;2024-04-09T19:00:00
+nadams;181;Magic: The Gathering Pro Tour 2023;2021-08-05T14:00:00
+nadams;189;World Championship of Online Poker 2023;2022-11-07T13:00:00
+nadams;182;Yu-Gi-Oh! World Championship 2023;2022-03-13T09:00:00
+nadams;188;Magic: The Gathering World Championship 2023;2024-04-14T04:00:00
+nadams;194;Magic: The Gathering Pro Tour 2028;2029-07-12T14:00:00
+nadams;196;Hearthstone World Championship 2028;2029-02-22T08:00:00
+williamskristy;10;Dua Lipa Future Nostalgia Tour;2024-03-22T08:00:00
+williamskristy;11;Harry Styles Love on Tour;2021-09-19T17:00:00
+williamskristy;12;Ariana Grande Dangerous;2021-08-22T15:00:00
+williamskristy;15;Shawn Mendes Illuminate World Tour;2023-11-26T02:00:00
+williamskristy;9;Taylor Swift Eras Tour Warsaw;2021-12-21T12:00:00
+williamskristy;17;Olivia Rodrigo GUTS Tour;2026-10-09T03:00:00
+nelsonlaura;75;French Open Women's Semi-final;2021-04-27T23:00:00
+nelsonlaura;80;Davis Cup Final 2028;2026-09-19T20:00:00
+nelsonlaura;81;Fed Cup Final 2028;2028-11-25T17:00:00
+nelsonlaura;83;Laver Cup 2028;2028-04-14T10:00:00
+morriswilliam;44;MLS Cup Final;2022-03-02T04:00:00
+morriswilliam;40;A-League Sydney Derby;2020-10-14T01:00:00
+morriswilliam;33;Bundesliga Der Klassiker;2020-02-09T20:00:00
+morriswilliam;34;MLS All-Star Game;2020-11-01T21:00:00
+morriswilliam;35;Ligue 1 Paris Derby;2022-07-06T14:00:00
+morriswilliam;52;UEFA Super Cup;2029-11-23T19:00:00
+morriswilliam;57;UEFA Europa Conference League Final;2028-07-05T02:00:00
+morriswilliam;54;CONMEBOL Libertadores Final;2030-01-20T04:00:00
+lynnclark;190;World Championship of Online Poker 2023;2023-09-16T06:00:00
+lynnclark;185;Flesh and Blood World Championship 2023;2021-08-04T03:00:00
+lynnclark;180;World Series of Poker 2023;2024-04-09T19:00:00
+lynnclark;182;Yu-Gi-Oh! World Championship 2023;2022-03-13T09:00:00
+lynnclark;188;Magic: The Gathering World Championship 2023;2024-04-14T04:00:00
+lynnclark;192;World Championship of Online Poker 2023;2021-01-11T03:00:00
+lynnclark;181;Magic: The Gathering Pro Tour 2023;2021-08-05T14:00:00
+lynnclark;191;World Championship of Online Poker 2023;2022-10-12T18:00:00
+lynnclark;184;Gwent Masters 2023;2021-05-19T05:00:00
+lynnclark;198;Flesh and Blood World Championship 2028;2027-09-06T02:00:00
+lynnclark;195;Yu-Gi-Oh! World Championship 2028;2026-08-16T10:00:00
+reyesblake;106;FINA Grand Prix 2023;2021-10-14T10:00:00
+reyesblake;104;European Swimming Championships 2023;2021-10-27T14:00:00
+reyesblake;103;World Swimming Championships 2023;2021-10-04T23:00:00
+reyesblake;110;European Swimming Championships 2028;2028-05-27T03:00:00
+reyesblake;108;Olympic Swimming Trials 2028;2030-05-02T02:00:00
+reyesblake;112;FINA Grand Prix 2028;2027-10-22T19:00:00
+kayla86;188;Magic: The Gathering World Championship 2023;2024-04-14T04:00:00
+kayla86;185;Flesh and Blood World Championship 2023;2021-08-04T03:00:00
+kayla86;183;Hearthstone World Championship 2023;2021-12-05T11:00:00
+kayla86;199;KeyForge World Championship 2028;2030-07-03T11:00:00
+kayla86;194;Magic: The Gathering Pro Tour 2028;2029-07-12T14:00:00
+davisjason;90;CEV Champions League Final;2024-12-04T16:00:00
+davisjason;87;FIVB World Championship Final;2022-12-12T22:00:00
+davisjason;93;Olympic Volleyball Tournament;2028-05-08T06:00:00
+davisjason;97;CEV Champions League Final 2027;2027-07-07T06:00:00
+john16;35;Ligue 1 Paris Derby;2022-07-06T14:00:00
+john16;43;MLS Western Conference Final;2020-12-19T23:00:00
+john16;38;Scottish Premiership Old Firm;2023-08-05T04:00:00
+john16;45;CONCACAF Champions League Final;2024-01-09T12:00:00
+john16;34;MLS All-Star Game;2020-11-01T21:00:00
+john16;29;Champions League Final 2023;2022-01-01T12:00:00
+john16;59;FIFA U-17 World Cup Final;2026-11-20T19:00:00
+john16;51;FIFA Club World Cup Final;2027-08-01T09:00:00
+john16;48;Copa America 2027 Final;2027-01-22T01:00:00
+richardgonzalez;169;Chess Olympiad 2023;2021-06-07T06:00:00
+richardgonzalez;172;FIDE Grand Prix 2023;2021-05-07T23:00:00
+richardgonzalez;166;World Chess Championship 2023;2023-12-13T08:00:00
+richardgonzalez;171;World Blitz Chess Championship 2023;2020-07-18T13:00:00
+richardgonzalez;170;World Rapid Chess Championship 2023;2021-06-21T15:00:00
+richardgonzalez;176;Chess Olympiad 2028;2028-01-07T08:00:00
+nhouston;75;French Open Women's Semi-final;2021-04-27T23:00:00
+nhouston;86;ATP Next Gen Finals 2028;2029-12-18T20:00:00
+nhouston;85;Hopman Cup 2028;2026-02-16T21:00:00
+nhouston;81;Fed Cup Final 2028;2028-11-25T17:00:00
+krush;91;FIVB Grand Prix Final;2022-02-18T23:00:00
+krush;89;AVP Beach Volleyball Final;2023-05-02T21:00:00
+krush;92;FIVB Club World Championship Final;2024-03-04T07:00:00
+krush;95;NCAA Volleyball Championship 2027;2029-03-17T01:00:00
+krush;94;FIVB World Championship 2026;2029-05-26T08:00:00
+krush;101;FIVB U21 World Championship Final;2026-03-07T19:00:00
+bromero;3;Foo Fighters Concrete and Gold Tour;2023-10-08T14:00:00
+bromero;6;Led Zeppelin Tribute Band;2030-03-18T20:00:00
+bromero;7;Greta Van Fleet Starcatcher Tour;2030-07-14T22:00:00
+stevendavis;244;Yoga for Balance Workshop;2023-07-19T05:00:00
+stevendavis;243;Yoga for Strength Workshop;2024-05-04T08:00:00
+stevendavis;239;Yoga for Beginners Workshop;2023-05-03T03:00:00
+stevendavis;252;Yoga for Balance Workshop;2026-08-11T01:00:00
+stevendavis;247;Yoga Teacher Training Info Session;2028-11-23T05:00:00
+paul53;191;World Championship of Online Poker 2023;2022-10-12T18:00:00
+paul53;181;Magic: The Gathering Pro Tour 2023;2021-08-05T14:00:00
+paul53;192;World Championship of Online Poker 2023;2021-01-11T03:00:00
+paul53;189;World Championship of Online Poker 2023;2022-11-07T13:00:00
+paul53;188;Magic: The Gathering World Championship 2023;2024-04-14T04:00:00
+paul53;180;World Series of Poker 2023;2024-04-09T19:00:00
+paul53;186;KeyForge World Championship 2023;2021-05-20T19:00:00
+paul53;184;Gwent Masters 2023;2021-05-19T05:00:00
+paul53;199;KeyForge World Championship 2028;2030-07-03T11:00:00
+mark52;117;Giro d'Italia Stage 5;2020-06-05T15:00:00
+mark52;116;Tour de France Stage 10;2022-05-16T11:00:00
+mark52;119;UCI Road World Championships;2024-07-14T20:00:00
+mark52;130;UCI Cyclo-cross World Championships 2028;2027-03-25T23:00:00
+leonard83;214;Ballroom Dance Showcase;2022-09-20T01:00:00
+leonard83;207;Ballroom Dance Competition;2023-01-12T10:00:00
+leonard83;209;Ballet Recital;2023-11-10T05:00:00
+leonard83;204;Intermediate Ballet Workshop;2024-05-15T22:00:00
+leonard83;208;Jazz Dance Workshop;2022-06-02T02:00:00
+leonard83;205;Salsa Social Dance Night;2021-01-17T09:00:00
+leonard83;225;Contemporary Dance Workshop;2026-10-17T07:00:00
+leonard83;217;Advanced Salsa Class Series;2027-09-20T04:00:00
+andrew29;310;Fiction Writing Workshop;2023-06-11T17:00:00
+andrew29;311;Non-Fiction Writing Workshop;2021-08-17T20:00:00
+andrew29;314;Poetry Writing Workshop;2026-07-15T16:00:00
+andrew29;318;Screenwriting Workshop;2029-08-23T21:00:00
+schultzsean;63;Olympic Basketball Final;2023-03-03T20:00:00
+schultzsean;60;NBA Finals Game 7 2024;2020-09-22T12:00:00
+schultzsean;72;FIBA U19 World Cup Final;2026-02-02T03:00:00
+schultzsean;71;WNBA All-Star Game;2028-07-13T15:00:00
+schultzsean;69;Olympic Basketball Qualifiers;2030-01-01T20:00:00
+alexanderduffy;32;Serie A Milan Derby;2021-05-26T23:00:00
+alexanderduffy;30;Premier League Derby;2024-05-26T11:00:00
+alexanderduffy;31;La Liga El Clasico;2022-07-09T20:00:00
+alexanderduffy;36;Eredivisie De Topper;2024-11-06T01:00:00
+alexanderduffy;34;MLS All-Star Game;2020-11-01T21:00:00
+alexanderduffy;33;Bundesliga Der Klassiker;2020-02-09T20:00:00
+alexanderduffy;38;Scottish Premiership Old Firm;2023-08-05T04:00:00
+alexanderduffy;43;MLS Western Conference Final;2020-12-19T23:00:00
+alexanderduffy;45;CONCACAF Champions League Final;2024-01-09T12:00:00
+alexanderduffy;35;Ligue 1 Paris Derby;2022-07-06T14:00:00
+alexanderduffy;41;J-League Tokyo Derby;2021-09-15T23:00:00
+alexanderduffy;51;FIFA Club World Cup Final;2027-08-01T09:00:00
+alexanderduffy;55;CONMEBOL Sudamericana Final;2028-04-14T01:00:00
+watersamy;238;Morning Vinyasa Flow;2024-01-05T10:00:00
+watersamy;245;Yoga for Mindfulness Workshop;2021-02-24T10:00:00
+watersamy;244;Yoga for Balance Workshop;2023-07-19T05:00:00
+watersamy;239;Yoga for Beginners Workshop;2023-05-03T03:00:00
+watersamy;249;Yoga for Stress Relief Workshop;2029-02-19T07:00:00
+watersamy;254;Yoga for Seniors Workshop;2029-12-20T15:00:00
+gonzalezjared;29;Champions League Final 2023;2022-01-01T12:00:00
+gonzalezjared;35;Ligue 1 Paris Derby;2022-07-06T14:00:00
+gonzalezjared;30;Premier League Derby;2024-05-26T11:00:00
+gonzalezjared;36;Eredivisie De Topper;2024-11-06T01:00:00
+gonzalezjared;45;CONCACAF Champions League Final;2024-01-09T12:00:00
+gonzalezjared;39;Super Lig Istanbul Derby;2021-04-18T04:00:00
+gonzalezjared;40;A-League Sydney Derby;2020-10-14T01:00:00
+gonzalezjared;49;AFCON 2027 Final;2029-11-19T21:00:00
+gonzalezjared;54;CONMEBOL Libertadores Final;2030-01-20T04:00:00
+gonzalezjared;57;UEFA Europa Conference League Final;2028-07-05T02:00:00
+ecochran;188;Magic: The Gathering World Championship 2023;2024-04-14T04:00:00
+ecochran;181;Magic: The Gathering Pro Tour 2023;2021-08-05T14:00:00
+ecochran;184;Gwent Masters 2023;2021-05-19T05:00:00
+ecochran;183;Hearthstone World Championship 2023;2021-12-05T11:00:00
+ecochran;189;World Championship of Online Poker 2023;2022-11-07T13:00:00
+ecochran;197;Gwent Masters 2028;2026-07-21T11:00:00
+ecochran;202;World Championship of Online Poker 2028;2028-12-17T10:00:00
+salinasbrian;168;Grand Slam Chess Tournament 2023;2024-03-08T02:00:00
+salinasbrian;166;World Chess Championship 2023;2023-12-13T08:00:00
+salinasbrian;167;Candidates Tournament 2023;2021-10-20T09:00:00
+salinasbrian;171;World Blitz Chess Championship 2023;2020-07-18T13:00:00
+salinasbrian;169;Chess Olympiad 2023;2021-06-07T06:00:00
+salinasbrian;179;FIDE Grand Prix 2028;2026-08-09T15:00:00
+salinasbrian;176;Chess Olympiad 2028;2028-01-07T08:00:00
+salinasbrian;177;World Rapid Chess Championship 2028;2028-11-24T18:00:00
+gwalker;240;Yoga for Athletes Workshop;2020-11-03T17:00:00
+gwalker;238;Morning Vinyasa Flow;2024-01-05T10:00:00
+gwalker;246;Evening Restorative Yoga;2028-03-11T22:00:00
+gwalker;251;Yoga for Strength Workshop;2028-06-09T10:00:00
+osteele;258;Cybersecurity and Data Protection Conference 2023;2024-05-11T11:00:00
+osteele;260;Big Data and Analytics Conference 2023;2023-09-12T05:00:00
+osteele;262;Augmented Reality and Virtual Reality Conference 2023;2022-02-05T19:00:00
+osteele;274;Future of AI Conference 2028;2027-01-23T12:00:00
+osteele;269;Big Data and Analytics Conference 2028;2029-09-16T13:00:00
+osteele;265;AI and Machine Learning Conference 2028;2027-08-19T19:00:00
+oliveremily;166;World Chess Championship 2023;2023-12-13T08:00:00
+oliveremily;168;Grand Slam Chess Tournament 2023;2024-03-08T02:00:00
+oliveremily;171;World Blitz Chess Championship 2023;2020-07-18T13:00:00
+oliveremily;173;World Chess Championship 2028;2027-11-19T16:00:00
+oliveremily;177;World Rapid Chess Championship 2028;2028-11-24T18:00:00
+barbaramccormick;320;Climate Change Conference 2023;2022-07-18T18:00:00
+barbaramccormick;322;Neuroscience Conference 2023;2021-04-26T01:00:00
+barbaramccormick;329;Neuroscience Conference 2028;2027-11-01T20:00:00
+paulrodriguez;182;Yu-Gi-Oh! World Championship 2023;2022-03-13T09:00:00
+paulrodriguez;184;Gwent Masters 2023;2021-05-19T05:00:00
+paulrodriguez;183;Hearthstone World Championship 2023;2021-12-05T11:00:00
+paulrodriguez;186;KeyForge World Championship 2023;2021-05-20T19:00:00
+paulrodriguez;181;Magic: The Gathering Pro Tour 2023;2021-08-05T14:00:00
+paulrodriguez;191;World Championship of Online Poker 2023;2022-10-12T18:00:00
+paulrodriguez;185;Flesh and Blood World Championship 2023;2021-08-04T03:00:00
+paulrodriguez;187;Pokemon World Championship 2023;2024-08-17T22:00:00
+paulrodriguez;188;Magic: The Gathering World Championship 2023;2024-04-14T04:00:00
+paulrodriguez;189;World Championship of Online Poker 2023;2022-11-07T13:00:00
+paulrodriguez;200;Pokemon World Championship 2028;2027-04-27T06:00:00
+paulrodriguez;194;Magic: The Gathering Pro Tour 2028;2029-07-12T14:00:00
+paulrodriguez;197;Gwent Masters 2028;2026-07-21T11:00:00
+nromero;120;Paris-Roubaix 2023;2024-05-25T05:00:00
+nromero;116;Tour de France Stage 10;2022-05-16T11:00:00
+nromero;117;Giro d'Italia Stage 5;2020-06-05T15:00:00
+nromero;122;UCI Cyclo-cross World Championships;2023-01-27T07:00:00
+nromero;133;UCI Track Cycling World Championships 2028;2029-09-13T12:00:00
+nromero;126;Vuelta a España Stage 12;2028-02-16T08:00:00
+nromero;127;UCI Road World Championships 2028;2030-02-01T18:00:00
+wandrews;75;French Open Women's Semi-final;2021-04-27T23:00:00
+wandrews;84;Ryder Cup 2028;2027-08-27T23:00:00
+lauriewiggins;326;Environmental Science Conference 2023;2022-11-19T22:00:00
+lauriewiggins;322;Neuroscience Conference 2023;2021-04-26T01:00:00
+lauriewiggins;321;Genetics and Genomics Conference 2023;2024-06-14T14:00:00
+lauriewiggins;320;Climate Change Conference 2023;2022-07-18T18:00:00
+lauriewiggins;323;Physics and Astronomy Conference 2023;2021-06-08T20:00:00
+lauriewiggins;325;Biology Conference 2023;2022-06-16T02:00:00
+lauriewiggins;329;Neuroscience Conference 2028;2027-11-01T20:00:00
+lauriewiggins;330;Physics and Astronomy Conference 2028;2026-12-14T15:00:00
+valenciadaniel;33;Bundesliga Der Klassiker;2020-02-09T20:00:00
+valenciadaniel;38;Scottish Premiership Old Firm;2023-08-05T04:00:00
+valenciadaniel;34;MLS All-Star Game;2020-11-01T21:00:00
+valenciadaniel;41;J-League Tokyo Derby;2021-09-15T23:00:00
+valenciadaniel;49;AFCON 2027 Final;2029-11-19T21:00:00
+daltonjill;261;Internet of Things (IoT) Conference 2023;2020-09-24T18:00:00
+daltonjill;262;Augmented Reality and Virtual Reality Conference 2023;2022-02-05T19:00:00
+daltonjill;264;Quantum Computing Conference 2023;2021-03-25T08:00:00
+daltonjill;259;Cloud Computing and Virtualization Conference 2023;2022-11-26T10:00:00
+daltonjill;274;Future of AI Conference 2028;2027-01-23T12:00:00
+daltonjill;272;5G Technology Conference 2028;2030-07-07T14:00:00
+daltonjill;273;Quantum Computing Conference 2028;2030-10-09T01:00:00
+amanda22;148;Warsaw Marathon 2023;2024-12-11T01:00:00
+amanda22;151;Poznan Marathon 2023;2023-08-02T10:00:00
+amanda22;154;Warsaw Marathon 2027;2029-03-01T17:00:00
+matthewhamilton;279;Wildlife Photography Walk;2022-09-06T21:00:00
+matthewhamilton;277;Urban Photography Walk;2023-11-04T23:00:00
+matthewhamilton;285;Landscape Photography Walk;2028-07-19T23:00:00
+myerslaura;25;EDC Las Vegas 2023;2024-09-07T17:00:00
+myerslaura;27;Awakenings Festival 2027;2026-08-01T21:00:00
+myerslaura;26;Ultra Music Festival Miami 2028;2030-12-17T15:00:00
+nramirez;326;Environmental Science Conference 2023;2022-11-19T22:00:00
+nramirez;325;Biology Conference 2023;2022-06-16T02:00:00
+nramirez;323;Physics and Astronomy Conference 2023;2021-06-08T20:00:00
+nramirez;324;Chemistry Conference 2023;2024-08-20T03:00:00
+nramirez;331;Chemistry Conference 2028;2027-11-14T15:00:00
+nramirez;330;Physics and Astronomy Conference 2028;2026-12-14T15:00:00
+ctaylor;262;Augmented Reality and Virtual Reality Conference 2023;2022-02-05T19:00:00
+ctaylor;256;AI and Machine Learning Conference 2023;2021-02-24T04:00:00
+ctaylor;259;Cloud Computing and Virtualization Conference 2023;2022-11-26T10:00:00
+ctaylor;261;Internet of Things (IoT) Conference 2023;2020-09-24T18:00:00
+ctaylor;260;Big Data and Analytics Conference 2023;2023-09-12T05:00:00
+ctaylor;273;Quantum Computing Conference 2028;2030-10-09T01:00:00
+chasemorgan;208;Jazz Dance Workshop;2022-06-02T02:00:00
+chasemorgan;209;Ballet Recital;2023-11-10T05:00:00
+chasemorgan;231;Zumba Dance Class;2028-12-23T08:00:00
+chasemorgan;228;Ballet Dance Class;2028-09-10T22:00:00
+chasemorgan;223;Salsa Dance Festival;2029-04-03T16:00:00
+samanthamills;323;Physics and Astronomy Conference 2023;2021-06-08T20:00:00
+samanthamills;322;Neuroscience Conference 2023;2021-04-26T01:00:00
+samanthamills;325;Biology Conference 2023;2022-06-16T02:00:00
+samanthamills;326;Environmental Science Conference 2023;2022-11-19T22:00:00
+samanthamills;330;Physics and Astronomy Conference 2028;2026-12-14T15:00:00
+samanthamills;329;Neuroscience Conference 2028;2027-11-01T20:00:00
+tammythompson;136;Guided Hike in the Pieniny Mountains;2024-05-18T12:00:00
+tammythompson;139;Guided Hike in the Beskidy Mountains;2020-05-24T10:00:00
+tammythompson;137;Guided Hike in the Karkonosze Mountains;2020-10-11T11:00:00
+tammythompson;138;Guided Hike in the Sudetes Mountains;2020-06-09T23:00:00
+tammythompson;134;Guided Hike in the Tatra Mountains;2021-11-02T22:00:00
+tammythompson;143;Guided Hike in the Karkonosze Mountains;2030-11-05T03:00:00
+tammythompson;146;Guided Hike in the Tatra Mountains - Winter Edition;2030-02-16T08:00:00
+patriciawarren;308;Creative Writing Workshop;2020-06-23T19:00:00
+patriciawarren;316;Non-Fiction Writing Workshop;2029-10-16T11:00:00
+patriciawarren;317;Memoir Writing Workshop;2027-11-13T02:00:00
+patriciawarren;314;Poetry Writing Workshop;2026-07-15T16:00:00
+nelsonkayla;276;Nature Photography Walk;2024-02-01T05:00:00
+nelsonkayla;278;Street Photography Walk;2020-01-25T04:00:00
+nelsonkayla;277;Urban Photography Walk;2023-11-04T23:00:00
+nelsonkayla;285;Landscape Photography Walk;2028-07-19T23:00:00
+bellangel;75;French Open Women's Semi-final;2021-04-27T23:00:00
+bellangel;74;Wimbledon Men's Final 2023;2024-09-15T12:00:00
+bellangel;80;Davis Cup Final 2028;2026-09-19T20:00:00
+bellangel;83;Laver Cup 2028;2028-04-14T10:00:00
+ramirezjacob;293;Baking Basics Cooking Class;2021-10-09T18:00:00
+ramirezjacob;296;Gluten-Free Cooking Class;2020-02-17T15:00:00
+ramirezjacob;287;Italian Cuisine Cooking Class;2022-06-13T13:00:00
+ramirezjacob;305;Vegan Cooking Class;2026-07-16T21:00:00
+ramirezjacob;300;Mexican Cuisine Cooking Class;2030-07-10T21:00:00
+dbell;61;EuroLeague Championship;2023-01-10T14:00:00
+dbell;63;Olympic Basketball Final;2023-03-03T20:00:00
+dbell;62;WNBA Finals Game 5;2022-09-08T06:00:00
+dbell;70;EuroLeague Final Four;2028-01-06T02:00:00
+dbell;73;FIBA U17 World Cup Final;2029-11-12T10:00:00
+harrisjohn;75;French Open Women's Semi-final;2021-04-27T23:00:00
+harrisjohn;78;ATP Finals 2028;2030-07-24T10:00:00
+harrisjohn;85;Hopman Cup 2028;2026-02-16T21:00:00
+christopher53;61;EuroLeague Championship;2023-01-10T14:00:00
+christopher53;71;WNBA All-Star Game;2028-07-13T15:00:00
+tarawilson;24;Tomorrowland Belgium 2022;2021-09-05T22:00:00
+tarawilson;25;EDC Las Vegas 2023;2024-09-07T17:00:00
+tarawilson;28;Creamfields UK 2029;2028-08-21T15:00:00
+horneryan;278;Street Photography Walk;2020-01-25T04:00:00
+horneryan;280;Nature Photography Walk;2026-11-11T14:00:00
+jeffersonkelsey;75;French Open Women's Semi-final;2021-04-27T23:00:00
+jeffersonkelsey;81;Fed Cup Final 2028;2028-11-25T17:00:00
+jeffersonkelsey;86;ATP Next Gen Finals 2028;2029-12-18T20:00:00
+kelli53;279;Wildlife Photography Walk;2022-09-06T21:00:00
+kelli53;277;Urban Photography Walk;2023-11-04T23:00:00
+kelli53;278;Street Photography Walk;2020-01-25T04:00:00
+kelli53;286;Astrophotography Walk;2030-02-27T23:00:00
+kelli53;285;Landscape Photography Walk;2028-07-19T23:00:00
+kelli53;284;Portrait Photography Walk;2030-10-07T09:00:00
+paulbaldwin;150;Gdynia 10K Run 2023;2020-11-26T07:00:00
+paulbaldwin;148;Warsaw Marathon 2023;2024-12-11T01:00:00
+paulbaldwin;151;Poznan Marathon 2023;2023-08-02T10:00:00
+paulbaldwin;162;Gdynia Half Marathon 2027;2027-07-02T17:00:00
+wdawson;4;Queens of the Stone Age Villains Tour;2020-12-05T10:00:00
+wdawson;1;The Stone Roses Reunion;2020-12-18T06:00:00
+wdawson;7;Greta Van Fleet Starcatcher Tour;2030-07-14T22:00:00
+wdawson;6;Led Zeppelin Tribute Band;2030-03-18T20:00:00
+kimberlyfoster;166;World Chess Championship 2023;2023-12-13T08:00:00
+kimberlyfoster;167;Candidates Tournament 2023;2021-10-20T09:00:00
+kimberlyfoster;172;FIDE Grand Prix 2023;2021-05-07T23:00:00
+kimberlyfoster;171;World Blitz Chess Championship 2023;2020-07-18T13:00:00
+kimberlyfoster;170;World Rapid Chess Championship 2023;2021-06-21T15:00:00
+kimberlyfoster;173;World Chess Championship 2028;2027-11-19T16:00:00
+colintaylor;102;Olympic Swimming Finals 2024;2020-07-23T06:00:00
+colintaylor;107;FINA Swimming World Series 2023;2023-12-19T04:00:00
+colintaylor;104;European Swimming Championships 2023;2021-10-27T14:00:00
+colintaylor;105;FINA World Cup 2023;2021-06-01T22:00:00
+colintaylor;111;FINA World Cup 2028;2029-06-06T07:00:00
+ramirezamy;214;Ballroom Dance Showcase;2022-09-20T01:00:00
+ramirezamy;221;Ballet Recital;2028-04-27T11:00:00
+ramirezamy;227;Jazz Dance Performance;2029-04-07T23:00:00
+vazquezkayla;138;Guided Hike in the Sudetes Mountains;2020-06-09T23:00:00
+vazquezkayla;134;Guided Hike in the Tatra Mountains;2021-11-02T22:00:00
+vazquezkayla;137;Guided Hike in the Karkonosze Mountains;2020-10-11T11:00:00
+vazquezkayla;135;Guided Hike in the Bieszczady Mountains;2021-02-06T21:00:00
+vazquezkayla;146;Guided Hike in the Tatra Mountains - Winter Edition;2030-02-16T08:00:00
+joshuadoyle;106;FINA Grand Prix 2023;2021-10-14T10:00:00
+joshuadoyle;104;European Swimming Championships 2023;2021-10-27T14:00:00
+joshuadoyle;114;FINA Swimming World Cup 2028;2027-09-27T12:00:00
+reyescrystal;134;Guided Hike in the Tatra Mountains;2021-11-02T22:00:00
+reyescrystal;138;Guided Hike in the Sudetes Mountains;2020-06-09T23:00:00
+reyescrystal;144;Guided Hike in the Sudetes Mountains;2030-12-07T03:00:00
+reyescrystal;143;Guided Hike in the Karkonosze Mountains;2030-11-05T03:00:00
+houstonbilly;256;AI and Machine Learning Conference 2023;2021-02-24T04:00:00
+houstonbilly;258;Cybersecurity and Data Protection Conference 2023;2024-05-11T11:00:00
+houstonbilly;259;Cloud Computing and Virtualization Conference 2023;2022-11-26T10:00:00
+houstonbilly;260;Big Data and Analytics Conference 2023;2023-09-12T05:00:00
+houstonbilly;263;5G Technology Conference 2023;2021-05-07T12:00:00
+houstonbilly;257;Blockchain Technology Summit 2023;2024-05-08T09:00:00
+houstonbilly;273;Quantum Computing Conference 2028;2030-10-09T01:00:00
+houstonbilly;272;5G Technology Conference 2028;2030-07-07T14:00:00
+maychristina;276;Nature Photography Walk;2024-02-01T05:00:00
+maychristina;277;Urban Photography Walk;2023-11-04T23:00:00
+maychristina;278;Street Photography Walk;2020-01-25T04:00:00
+maychristina;286;Astrophotography Walk;2030-02-27T23:00:00
+cantrelljennifer;264;Quantum Computing Conference 2023;2021-03-25T08:00:00
+cantrelljennifer;260;Big Data and Analytics Conference 2023;2023-09-12T05:00:00
+cantrelljennifer;257;Blockchain Technology Summit 2023;2024-05-08T09:00:00
+cantrelljennifer;258;Cybersecurity and Data Protection Conference 2023;2024-05-11T11:00:00
+cantrelljennifer;261;Internet of Things (IoT) Conference 2023;2020-09-24T18:00:00
+cantrelljennifer;268;Cloud Computing and Virtualization Conference 2028;2030-12-22T17:00:00
+cantrelljennifer;266;Blockchain Technology Summit 2028;2028-03-06T23:00:00
+mistybird;292;Mediterranean Cuisine Cooking Class;2024-03-12T13:00:00
+mistybird;289;Japanese Cuisine Cooking Class;2021-01-22T03:00:00
+mistybird;306;Gluten-Free Cooking Class;2027-08-20T21:00:00
+mistybird;297;Italian Cuisine Cooking Class;2028-12-12T15:00:00
+mistybird;299;Japanese Cuisine Cooking Class;2030-05-03T14:00:00
+robinsonconnie;24;Tomorrowland Belgium 2022;2021-09-05T22:00:00
+robinsonconnie;27;Awakenings Festival 2027;2026-08-01T21:00:00
+robinsonconnie;26;Ultra Music Festival Miami 2028;2030-12-17T15:00:00
+fwhite;279;Wildlife Photography Walk;2022-09-06T21:00:00
+fwhite;283;Wildlife Photography Walk;2026-11-07T12:00:00
