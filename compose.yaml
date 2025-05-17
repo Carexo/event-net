@@ -7,7 +7,7 @@ services:
     volumes:
       - neo4j_data:/data
       - neo4j_logs:/logs
-      - neo4j_import:/import
+      - ./neo4j_import:/import
     env_file: ".env"
     environment:
         - NEO4J_AUTH=neo4j/${DB_PASSWORD}
