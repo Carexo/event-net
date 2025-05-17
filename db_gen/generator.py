@@ -16,34 +16,40 @@ def get_random_events():
     return user_events
 
 faker = Faker()
+unique_usernames = set([faker.user_name() for _ in range(10000)])
 users = {}
-for i in range(1, 100):
-    user = User(faker.user_name())
+for username in unique_usernames:
+    user = User(username)
     users[user.name] = user
     user_events = get_random_events()
     for e in user_events:
         user.add_registered(e)
 
+COLUMNS_DELIMITER = ','
+LINE_DELIMITER = '\n'
+
 events_registered_csv = []
-events_registered_csv.append('user_name;event_id;event_name;start_datetime')
+csv_header = ['user_name', 'event_id', 'event_name', 'start_datetime']
+events_registered_csv.append(COLUMNS_DELIMITER.join(csv_header))
 for user in users.values():
     for e in user.registered_to:
         props = [user.name, e.id, e.name, e.startDatetime.isoformat()]
-        line = ';'.join(map(str, props))
+        line = COLUMNS_DELIMITER.join(map(str, props))
         events_registered_csv.append(line)
 
 with open('user_events.csv', 'w', encoding='utf-8') as f:
-    f.write('\n'.join(events_registered_csv))
+    f.write(LINE_DELIMITER.join(events_registered_csv))
 
 flat_events = sum(sum([list(e.values()) for e in events.values()], []), [])
 
 keywords_csv = []
-keywords_csv.append('event_id;keyword')
+csv_header = ['event_id', 'keyword']
+keywords_csv.append(COLUMNS_DELIMITER.join(csv_header))
 for e in flat_events:
     for k in e.keywords:
         props = [e.id, k]
-        line = ';'.join(map(str, props))
+        line = COLUMNS_DELIMITER.join(map(str, props))
         keywords_csv.append(line)
 
 with open('event_keyword.csv', 'w', encoding='utf-8') as f:
-    f.write('\n'.join(keywords_csv))
+    f.write(LINE_DELIMITER.join(keywords_csv))
