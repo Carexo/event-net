@@ -2,10 +2,14 @@
 mod db;
 mod routes;
 mod services;
+mod models;
+mod utils;
+mod repo;
 
 use dotenv::dotenv;
 use std::env;
 use db::neo4j::Neo4jConnection;
+use crate::routes::events::EventController;
 
 #[get("/")]
 fn index() -> &'static str {
@@ -26,6 +30,7 @@ async fn rocket() -> _ {
     ).await.expect("Failed to connect to Neo4j");
 
     rocket::build()
-        .manage(neo4j.graph)
-        .mount("/", routes![index, routes::example::example])
+        .manage(EventController::new(neo4j.graph))
+        .mount("/", routes![index])
+        .mount("/", EventController::routes())
 }

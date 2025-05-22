@@ -8,5 +8,6 @@ pub async fn example(graph: &State<Arc<Graph>>) -> String {
 
     let row = result.next().await.unwrap().unwrap();
     let value: i64 = row.get("1").unwrap();
-    value.to_string()
+    value.to_string();
+    "test".to_string()
 }
