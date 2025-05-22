@@ -1,8 +1,8 @@
 use std::error::Error;
 use neo4rs::{Row};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Event {
     pub id: u16,
     pub name: String,
