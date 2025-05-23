@@ -14,8 +14,15 @@ impl UserService {
     }
     
     pub async fn get_one(&self, user_name: String) -> ApiResponse<User> {
-        match self.repo.get(user_name).await {
+        match self.repo.find_one(user_name).await {
             Ok(user) => ApiResponse::success(user, "User found"),
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status())
+        }
+    }
+    
+    pub async fn get_all(&self) -> ApiResponse<Vec<User>> {
+        match self.repo.find_all().await { 
+            Ok(users) => ApiResponse::success(users, "Users are ready"),
             Err(e) => ApiResponse::message_only(e.to_string(), e.status())
         }
     }

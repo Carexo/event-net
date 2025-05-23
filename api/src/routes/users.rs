@@ -18,11 +18,16 @@ impl UserController {
     }
 
     pub fn routes() -> Vec<Route> {
-        routes![get_one]
+        routes![get_one, get_all]
     }
 }
 
 #[get("/user/<user_name>")]
 pub async fn get_one(controller: &State<UserController>, user_name: String) -> ApiResponse<User> {
     controller.service.get_one(user_name).await
+}
+
+#[get("/users")]
+pub async fn get_all(controller: &State<UserController>) -> ApiResponse<Vec<User>> {
+    controller.service.get_all().await
 }
