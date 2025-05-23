@@ -20,7 +20,7 @@ impl UserService {
     }
     
     pub async fn get_all(&self) -> ApiResponse<Vec<User>> {
-        match self.user_repo.find_all().await { 
+        match self.user_repo.find_all().await {
             Ok(users) => ApiResponse::success(users, "Users are ready"),
             Err(e) => ApiResponse::message_only(e.to_string(), e.status())
         }
