@@ -14,13 +14,13 @@
 > You have to had installed docker
 
 ```
-docker compose up
+docker compose up --build
 ```
 
 Or to auto reload after file change:
 
 ```
-docker compose up --watch
+docker compose up --build --watch
 ```
 ## Data model
 
