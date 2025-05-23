@@ -1,11 +1,8 @@
-use crate::models::event::Event;
-use neo4rs::{Graph, Result, query};
+use crate::models::event::{Event, EventUpdate};
+use neo4rs::{Graph, Result, Row, query};
+use rocket::http::Status;
 use std::sync::Arc;
 use thiserror::Error;
-
-pub struct EventRepository {
-    graph: Arc<Graph>,
-}
 
 #[derive(Error, Debug)]
 pub enum EventRepoError {
@@ -21,6 +18,19 @@ pub enum EventRepoError {
     #[error("Error: {0}")]
     Other(String),
 }
+
+impl EventRepoError {
+    pub fn status(&self) -> Status {
+        match self {
+            EventRepoError::NotFound(_) => Status::NotFound,
+            _ => Status::BadRequest,
+        }
+    }
+}
+pub struct EventRepository {
+    graph: Arc<Graph>,
+}
+
 impl EventRepository {
     pub fn new(graph: Arc<Graph>) -> Self {
         Self { graph }
@@ -45,7 +55,9 @@ impl EventRepository {
             .await?;
 
         match result.next().await? {
-            Some(row) => Event::from_row(&row).map_err(|e| EventRepoError::ParseError(e.to_string())),
+            Some(row) => {
+                Event::from_row(&row).map_err(|e| EventRepoError::ParseError(e.to_string()))
+            }
             None => Err(EventRepoError::NotFound(id)),
         }
     }
@@ -110,7 +122,6 @@ impl EventRepository {
 
         match result.next().await? {
             Some(row) => {
-                println!("{:?}", row);
                 Event::from_row(&row).map_err(|e| EventRepoError::ParseError(e.to_string()))
             }
             None => Err(EventRepoError::Other("Can't create event".to_string())),
@@ -118,21 +129,8 @@ impl EventRepository {
     }
 
     pub async fn remove(&self, id: u16) -> Result<String, EventRepoError> {
-        let exists = self
-            .graph
-            .execute(
-                query(
-                    "MATCH (e:Event {id: $eventId}) RETURN count(e) AS count"
-                )
-                    .param("eventId", id),
-            )
-            .await?
-            .next()
-            .await?
-            .map(|row| row.get::<i64>("count").unwrap_or(0))
-            .unwrap_or(0);
-
-        if exists == 0 {
+        let exists = self.find_by_id(id).await.is_ok();
+        if !exists {
             return Err(EventRepoError::NotFound(id));
         }
 
@@ -147,6 +145,8 @@ impl EventRepository {
                 )
                 .param("eventId", id),
             )
+            .await?
+            .next()
             .await?;
 
         Ok(format!("Event with id {} successfully deleted", id))
@@ -155,8 +155,52 @@ impl EventRepository {
     pub async fn assign_user_to_event(
         &self,
         user_name: String,
-        event_id: u16
+        event_id: u16,
     ) -> Result<String, EventRepoError> {
         Ok("user assigned to event".to_string())
+    }
+
+    pub async fn edit(&self, id: u16, event_update: EventUpdate) -> Result<Event, EventRepoError> {
+        let exists = self.find_by_id(id).await.is_ok();
+        if !exists {
+            return Err(EventRepoError::NotFound(id));
+        }
+
+        let mut result = self
+            .graph
+            .execute(
+                query(
+                    "\
+            MATCH (e:Event { id: $eventId })
+            SET
+              e.name          = coalesce($eventName, e.name),
+              e.startDatetime = coalesce(datetime($startDatetime), e.startDatetime)
+            WITH e
+            OPTIONAL MATCH (e)-[oldRel:HAS]->(oldK:EventKeyword)
+            DELETE oldRel
+            WITH e
+            UNWIND $keywords AS kw
+              MERGE (k:EventKeyword { name: kw })
+              MERGE (e)-[:HAS]->(k)
+            RETURN
+               e.id               AS eventId,
+               e.name             AS eventName,
+               e.startDatetime    AS start,
+               collect(k.name)    AS keywords;",
+                )
+                .param("eventId", id)
+                .param("eventName", event_update.name.unwrap_or("NULL".to_string()))
+                .param(
+                    "startDatetime",
+                    event_update.start_datetime.unwrap_or("NULL".to_string()),
+                )
+                .param("keywords", event_update.keywords),
+            )
+            .await?;
+
+        match result.next().await? {
+            Some(row) => Event::from_row(&row).map_err(|e| EventRepoError::ParseError(e.to_string())),
+            None => Err(EventRepoError::NotFound(id)),
+        }
     }
 }

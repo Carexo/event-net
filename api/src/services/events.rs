@@ -1,5 +1,5 @@
 use rocket::http::Status;
-use crate::models::event::Event;
+use crate::models::event::{Event, EventUpdate};
 use crate::repo::events::{EventRepository, EventRepoError};
 use crate::utils::api_response::ApiResponse;
 
@@ -13,7 +13,7 @@ impl EventService {
     ) -> Self {
         Self { event_repo }
     }
-    
+
     pub async fn get_event(&self, id: u16) -> ApiResponse<Event> {
         match self.event_repo.find_by_id(id).await {
             Ok(event) => ApiResponse::success(event, "Event found successfully"),
@@ -39,7 +39,14 @@ impl EventService {
     pub async fn remove_event(&self, id: u16) -> ApiResponse<String> {
         match self.event_repo.remove(id).await {
             Ok(message) => ApiResponse::message_only(message, Status::Ok),
-            Err(e) => ApiResponse::message_only(format!("{}", e), Status::BadRequest)
+            Err(e) => ApiResponse::message_only(format!("{}", e), Status::BadRequest),
+        }
+    }
+
+    pub async fn edit_event(&self, id: u16, event: EventUpdate) -> ApiResponse<Event> {
+        match self.event_repo.edit(id, event).await {
+            Ok(event) => ApiResponse::success(event, "Event edited successfully"),
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status())
         }
     }
 }
