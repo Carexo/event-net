@@ -8,9 +8,16 @@ mod repo;
 
 use dotenv::dotenv;
 use std::env;
+use std::sync::Arc;
 use db::neo4j::Neo4jConnection;
 use crate::routes::events::EventController;
 use crate::routes::users::UserController;
+use crate::repo::events::EventRepository;
+use crate::repo::users::UserRepository;
+use crate::repo::users_events::UserEventRepository;
+use crate::services::events::EventService;
+use crate::services::users::UserService;
+use crate::services::users_events::UserEventService;
 
 #[get("/")]
 fn index() -> &'static str {
@@ -32,9 +39,30 @@ async fn rocket() -> _ {
 
     let graph = neo4j.graph;
 
+    let user_repo = UserRepository::new(graph.clone());
+    let event_repo = EventRepository::new(graph.clone());
+    let user_event_repo = UserEventRepository::new(graph);
+
+    let user_service = Arc::new(UserService::new(user_repo));
+    let event_service = Arc::new(EventService::new(event_repo));
+    let user_event_service = Arc::new(UserEventService::new(
+        user_service.clone(),
+        event_service.clone(),
+        user_event_repo
+    ));
+
+    let event_controller = EventController::new(
+        event_service,
+        user_event_service.clone()
+    );
+    let user_controller = UserController::new(
+        user_service,
+        user_event_service
+    );
+
     rocket::build()
-        .manage(EventController::new(graph.clone()))
-        .manage(UserController::new(graph))
+        .manage(event_controller)
+        .manage(user_controller)
         .mount("/", routes![index])
         .mount("/", EventController::routes())
         .mount("/", UserController::routes())

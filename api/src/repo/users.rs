@@ -3,7 +3,7 @@ use neo4rs::{query, Graph};
 use rocket::http::Status;
 use thiserror::Error;
 use crate::models::user::User;
-use crate::repo::RepoError;
+use crate::repo::{ApiError, RepoError};
 use crate::repo::RepoError::Other;
 
 #[derive(Error, Debug)]
@@ -14,11 +14,11 @@ pub enum UserRepoError {
     UserNotFound(String),
 }
 
-impl UserRepoError {
-    pub fn status(&self) -> Status {
+impl ApiError for UserRepoError {
+    fn status(&self) -> Status {
         match self {
             UserRepoError::RepoError(e) => e.status(),
-            UserRepoError::UserNotFound(_) => Status::NotFound,
+            UserRepoError::UserNotFound(_) => Status::BadRequest,
         }
     }
 }
@@ -32,7 +32,7 @@ impl UserRepository {
         Self { graph }
     }
 
-    pub async fn find_one(&self, user_name: String) -> Result<User, UserRepoError> {
+    pub async fn find_one(&self, user_name: &str) -> Result<User, UserRepoError> {
         let result = self.graph
             .execute(
                 query("MATCH (u:User) WHERE u.name = $name RETURN u")
@@ -46,7 +46,7 @@ impl UserRepository {
             Ok(Some(row)) => {
                 row.get("u").map_err(|e| UserRepoError::RepoError(Other(e.to_string())))
             },
-            Ok(None) => Err(UserRepoError::UserNotFound(user_name)),
+            Ok(None) => Err(UserRepoError::UserNotFound(user_name.to_string())),
             Err(e) => Err(UserRepoError::RepoError(Other(e.to_string()))),
         }
     }
