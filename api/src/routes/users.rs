@@ -22,14 +22,14 @@ impl UserController {
             user_event_service
         }
     }
-    
+
     pub fn routes() -> Vec<Route> {
         routes![get_one, get_all]
     }
 }
 
 #[get("/user/<user_name>")]
-pub async fn get_one(controller: &State<UserController>, user_name: String) -> ApiResponse<User> {
+pub async fn get_one(controller: &State<UserController>, user_name: &str) -> ApiResponse<User> {
     controller.user_service.get_one(user_name).await
 }
 

@@ -10,8 +10,12 @@ pub enum RepoError {
     Other(String),
 }
 
-impl RepoError {
-    pub fn status(&self) -> Status {
+pub trait ApiError {
+    fn status(&self) -> Status;
+}
+
+impl ApiError for RepoError {
+    fn status(&self) -> Status {
         match self {
             RepoError::DatabaseError(_) => Status::InternalServerError,
             RepoError::Other(_) => Status::InternalServerError,

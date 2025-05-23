@@ -1,5 +1,5 @@
-use std::sync::Arc;
 use crate::models::user::User;
+use crate::repo::ApiError;
 use crate::repo::users::{UserRepository};
 use crate::utils::api_response::ApiResponse;
 
@@ -12,7 +12,7 @@ impl UserService {
         Self { user_repo }
     }
     
-    pub async fn get_one(&self, user_name: String) -> ApiResponse<User> {
+    pub async fn get_one(&self, user_name: &str) -> ApiResponse<User> {
         match self.user_repo.find_one(user_name).await {
             Ok(user) => ApiResponse::success(user, "User found"),
             Err(e) => ApiResponse::message_only(e.to_string(), e.status())
