@@ -1,5 +1,5 @@
 use crate::models::event::Event;
-use neo4rs::{Graph, Result, Row, query};
+use neo4rs::{Graph, Result, query};
 use std::sync::Arc;
 use thiserror::Error;
 
@@ -8,7 +8,7 @@ pub struct EventRepository {
 }
 
 #[derive(Error, Debug)]
-pub enum RepoError {
+pub enum EventRepoError {
     #[error("Database error: {0}")]
     DatabaseError(#[from] neo4rs::Error),
 
@@ -26,7 +26,7 @@ impl EventRepository {
         Self { graph }
     }
 
-    pub async fn find_by_id(&self, id: u16) -> Result<Event, RepoError> {
+    pub async fn find_by_id(&self, id: u16) -> Result<Event, EventRepoError> {
         let mut result = self
             .graph
             .execute(
@@ -45,12 +45,12 @@ impl EventRepository {
             .await?;
 
         match result.next().await? {
-            Some(row) => Event::from_row(&row).map_err(|e| RepoError::ParseError(e.to_string())),
-            None => Err(RepoError::NotFound(id)),
+            Some(row) => Event::from_row(&row).map_err(|e| EventRepoError::ParseError(e.to_string())),
+            None => Err(EventRepoError::NotFound(id)),
         }
     }
 
-    pub async fn find_all(&self) -> Result<Vec<Event>, RepoError> {
+    pub async fn find_all(&self) -> Result<Vec<Event>, EventRepoError> {
         let mut result = self
             .graph
             .execute(query(
@@ -69,18 +69,18 @@ impl EventRepository {
 
         while let Some(row) = match result.next().await {
             Ok(r) => r,
-            Err(e) => return Err(RepoError::Other(e.to_string())),
+            Err(e) => return Err(EventRepoError::Other(e.to_string())),
         } {
             match Event::from_row(&row) {
                 Ok(event) => events_list.push(event),
-                Err(e) => return Err(RepoError::ParseError(e.to_string())),
+                Err(e) => return Err(EventRepoError::ParseError(e.to_string())),
             }
         }
 
         Ok(events_list)
     }
 
-    pub async fn add(&self, event: Event) -> Result<Event, RepoError> {
+    pub async fn add(&self, event: Event) -> Result<Event, EventRepoError> {
         let mut result = self
             .graph
             .execute(
@@ -111,13 +111,13 @@ impl EventRepository {
         match result.next().await? {
             Some(row) => {
                 println!("{:?}", row);
-                Event::from_row(&row).map_err(|e| RepoError::ParseError(e.to_string()))
+                Event::from_row(&row).map_err(|e| EventRepoError::ParseError(e.to_string()))
             }
-            None => Err(RepoError::Other("Can't create event".to_string())),
+            None => Err(EventRepoError::Other("Can't create event".to_string())),
         }
     }
 
-    pub async fn remove(&self, id: u16) -> Result<String, RepoError> {
+    pub async fn remove(&self, id: u16) -> Result<String, EventRepoError> {
         let exists = self
             .graph
             .execute(
@@ -133,7 +133,7 @@ impl EventRepository {
             .unwrap_or(0);
 
         if exists == 0 {
-            return Err(RepoError::NotFound(id));
+            return Err(EventRepoError::NotFound(id));
         }
 
         let _ = self
@@ -150,5 +150,13 @@ impl EventRepository {
             .await?;
 
         Ok(format!("Event with id {} successfully deleted", id))
+    }
+
+    pub async fn assign_user_to_event(
+        &self,
+        user_name: String,
+        event_id: u16
+    ) -> Result<String, EventRepoError> {
+        Ok("user assigned to event".to_string())
     }
 }

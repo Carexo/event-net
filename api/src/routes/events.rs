@@ -1,6 +1,6 @@
 use crate::models::event::Event;
-use neo4rs::{Graph, query};
-use rocket::{Response, State};
+use neo4rs::{Graph};
+use rocket::{State};
 use std::sync::Arc;
 
 use crate::repo::events::EventRepository;

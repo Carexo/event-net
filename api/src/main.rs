@@ -10,6 +10,7 @@ use dotenv::dotenv;
 use std::env;
 use db::neo4j::Neo4jConnection;
 use crate::routes::events::EventController;
+use crate::routes::users::UserController;
 
 #[get("/")]
 fn index() -> &'static str {
@@ -29,8 +30,12 @@ async fn rocket() -> _ {
         &neo4j_password
     ).await.expect("Failed to connect to Neo4j");
 
+    let graph = neo4j.graph;
+
     rocket::build()
-        .manage(EventController::new(neo4j.graph))
+        .manage(EventController::new(graph.clone()))
+        .manage(UserController::new(graph))
         .mount("/", routes![index])
         .mount("/", EventController::routes())
+        .mount("/", UserController::routes())
 }

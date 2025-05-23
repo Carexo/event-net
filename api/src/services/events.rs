@@ -1,7 +1,6 @@
 use rocket::http::Status;
-use rocket::response::status;
 use crate::models::event::Event;
-use crate::repo::events::{EventRepository, RepoError};
+use crate::repo::events::{EventRepository, EventRepoError};
 use crate::utils::api_response::ApiResponse;
 
 pub struct EventService {
@@ -16,7 +15,7 @@ impl EventService {
     pub async fn get_event(&self, id: u16) -> ApiResponse<Event> {
         match self.repo.find_by_id(id).await {
             Ok(event) => ApiResponse::success(event, "Event found successfully"),
-            Err(RepoError::NotFound(_)) => ApiResponse::message_only(format!("No event found with ID: {}", id), Status::NotFound),
+            Err(EventRepoError::NotFound(_)) => ApiResponse::message_only(format!("No event found with ID: {}", id), Status::NotFound),
             Err(e) => ApiResponse::message_only(format!("{}", e), Status::BadRequest),
         }
     }
