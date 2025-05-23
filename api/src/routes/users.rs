@@ -4,19 +4,25 @@ use rocket::{Route, State};
 use crate::models::user::User;
 use crate::repo::users::UserRepository;
 use crate::services::users::UserService;
+use crate::services::users_events::UserEventService;
 use crate::utils::api_response::ApiResponse;
 
 pub struct UserController {
-    service: UserService
+    user_service: Arc<UserService>,
+    user_event_service: Arc<UserEventService>
 }
 
 impl UserController {
-    pub fn new(user_repo: Arc<Graph>) -> Self {
+    pub fn new(
+        user_service: Arc<UserService>,
+        user_event_service: Arc<UserEventService>
+    ) -> Self {
         Self {
-            service: UserService::new(user_repo)
+            user_service,
+            user_event_service
         }
     }
-
+    
     pub fn routes() -> Vec<Route> {
         routes![get_one, get_all]
     }
@@ -24,10 +30,10 @@ impl UserController {
 
 #[get("/user/<user_name>")]
 pub async fn get_one(controller: &State<UserController>, user_name: String) -> ApiResponse<User> {
-    controller.service.get_one(user_name).await
+    controller.user_service.get_one(user_name).await
 }
 
 #[get("/users")]
 pub async fn get_all(controller: &State<UserController>) -> ApiResponse<Vec<User>> {
-    controller.service.get_all().await
+    controller.user_service.get_all().await
 }
