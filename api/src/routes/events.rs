@@ -23,7 +23,9 @@ impl EventController {
     }
 
     pub fn routes() -> Vec<rocket::Route> {
-        routes![get_all, get_one, add, delete, edit, assign_user_to_event]
+        routes![get_all, get_one, add, delete, edit,
+            assign_user_to_event, unassign_user_from_event
+        ]
     }
 }
 
@@ -59,4 +61,13 @@ async fn assign_user_to_event(
     user_name: &str
 ) -> ApiResponse<String> {
     controller.user_event_service.assign_user_to_event(user_name, event_id).await
+}
+
+#[delete("/events/<event_id>/attendees/<user_name>")]
+async fn unassign_user_from_event(
+    controller: &State<EventController>,
+    event_id: u16,
+    user_name: &str
+) -> ApiResponse<String> {
+    controller.user_event_service.unassign_user_from_event(user_name, event_id).await
 }
