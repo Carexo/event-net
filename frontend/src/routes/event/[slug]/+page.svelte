@@ -1,9 +1,44 @@
 <script lang="ts">
     import type {PageProps} from './$types';
-    import {Heading, Img, Card, Badge, Button} from "flowbite-svelte";
-    import {CalendarMonthSolid, TagSolid, UserAddSolid} from "flowbite-svelte-icons";
+    import { onDestroy } from 'svelte';
+    import {Heading, Img, Badge, Button, Toast} from "flowbite-svelte";
+    import {CalendarMonthSolid, TagSolid, UserAddSolid, ExclamationCircleSolid} from "flowbite-svelte-icons";
+
+    import {selectedUser} from "$lib/stores/userStore";
+
+    let toastStatus = $state(false);
+    let toastTimer: ReturnType<typeof setTimeout> | null = null;
 
     let {data}: PageProps = $props();
+
+    $effect(() => {
+        if (toastStatus) {
+            if (toastTimer) clearTimeout(toastTimer);
+
+            toastTimer = setTimeout(() => {
+                toastStatus = false;
+                toastTimer = null;
+            }, 5000);
+        }
+    })
+
+    onDestroy(() => {
+        if (toastTimer) clearTimeout(toastTimer);
+    });
+
+    const handleSignUp = () => {
+        if (!$selectedUser) {
+            toastStatus = true;
+            return;
+        }
+
+        if (data.event) {
+            // Here you would typically handle the sign-up logic, e.g., API call
+            alert(`Signed up for event: ${data.event.name}`);
+        } else {
+            alert("No event data available.");
+        }
+    };
 </script>
 
 <section class="flex gap-5 justify-between w-full">
@@ -43,7 +78,7 @@
                 </div>
 
                 <div class="flex justify-center mt-10 self-end">
-                    <Button size="xl" color="blue" class="px-12 py-3 text-lg">
+                    <Button size="xl" color="blue" class="px-12 py-3 text-lg" onclick={handleSignUp}>
                         <UserAddSolid class="mr-3 h-6 w-6"/>
                         Sign up for this event
                     </Button>
@@ -53,3 +88,12 @@
     {/if}
 
 </section>
+<Toast
+        bind:toastStatus
+        color="red">
+    {#snippet icon()}
+        <ExclamationCircleSolid class="h-5 w-5"/>
+        <span class="sr-only">Warning icon</span>
+    {/snippet}
+    Choose user first
+</Toast>
