@@ -27,3 +27,10 @@ impl Event {
         )
     }
 }
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct EventUpdate {
+    pub name: Option<String>,
+    pub keywords: Vec<String>,
+    pub start_datetime: Option<String>
+}
