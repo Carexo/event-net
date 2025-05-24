@@ -40,4 +40,23 @@ impl UserEventService {
             Err(e) => ApiResponse::message_only(e.to_string(), e.status()),
         }
     }
+    
+    pub async fn unassign_user_from_event(
+        &self,
+        user_name: &str,
+        event_id: u16
+    ) -> ApiResponse<String> {
+        match self.user_service.get_one(user_name).await {
+            Success {data: _, message: _, status: _ } => {},
+            MessageOnly {message: m, status: s} => return ApiResponse::message_only(m, s),
+        };
+        match self.event_service.get_event(event_id).await {
+            Success {data: _, message: _, status: _} => {},
+            MessageOnly {message: m, status: s} => return ApiResponse::message_only(m, s),
+        };
+        match self.user_event_repo.unassign_user_from_event(user_name, event_id).await {
+            Ok(_) => ApiResponse::message_only("User has been unassigned from event".to_string(), Status::Ok),
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status()),
+        }
+    }
 }

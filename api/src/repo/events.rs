@@ -151,15 +151,7 @@ impl EventRepository {
 
         Ok(format!("Event with id {} successfully deleted", id))
     }
-
-    pub async fn assign_user_to_event(
-        &self,
-        user_name: String,
-        event_id: u16,
-    ) -> Result<String, EventRepoError> {
-        Ok("user assigned to event".to_string())
-    }
-
+    
     pub async fn edit(&self, id: u16, event_update: EventUpdate) -> Result<Event, EventRepoError> {
         let exists = self.find_by_id(id).await.is_ok();
         if !exists {
