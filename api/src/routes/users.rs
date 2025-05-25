@@ -25,7 +25,9 @@ impl UserController {
     }
 
     pub fn routes() -> Vec<Route> {
-        routes![get_one, get_all, get_all_events_of_user]
+        routes![get_one, get_all, get_all_events_of_user,
+            recommend_events_for_user_based_on_events_similarity
+        ]
     }
 }
 
@@ -42,4 +44,9 @@ pub async fn get_all(controller: &State<UserController>) -> ApiResponse<Vec<User
 #[get("/user/<user_name>/events")]
 pub async fn get_all_events_of_user(controller: &State<UserController>, user_name: &str) -> ApiResponse<Vec<Event>> {
     controller.user_event_service.find_all_events_of_user(user_name).await
+}
+
+#[get("/user/<user_name>/recommendations")]
+pub async fn recommend_events_for_user_based_on_events_similarity(controller: &State<UserController>, user_name: &str) -> ApiResponse<Vec<Event>> {
+    controller.user_event_service.recommend_events_for_user_based_on_events_similarity(user_name).await
 }
