@@ -151,7 +151,7 @@ impl EventRepository {
 
         Ok(format!("Event with id {} successfully deleted", id))
     }
-    
+
     pub async fn edit(&self, id: u16, event_update: EventUpdate) -> Result<Event, EventRepoError> {
         let exists = self.find_by_id(id).await.is_ok();
         if !exists {
@@ -191,8 +191,40 @@ impl EventRepository {
             .await?;
 
         match result.next().await? {
-            Some(row) => Event::from_row(&row).map_err(|e| EventRepoError::ParseError(e.to_string())),
+            Some(row) => {
+                Event::from_row(&row).map_err(|e| EventRepoError::ParseError(e.to_string()))
+            }
             None => Err(EventRepoError::NotFound(id)),
         }
+    }
+
+    pub async fn get_featured(&self) -> Result<Vec<Event>, EventRepoError> {
+        let mut result = self
+            .graph
+            .execute(query(
+                "MATCH (e:Event)
+                    OPTIONAL MATCH (e)-[:HAS]->(k:EventKeyword)
+                    RETURN
+                        e.id               AS eventId,
+                        e.name             AS eventName,
+                        e.startDatetime    AS start,
+                        collect(k.name)    AS keywords
+                    LIMIT 3;",
+            ))
+            .await?;
+
+        let mut events_list: Vec<Event> = Vec::new();
+
+        while let Some(row) = match result.next().await {
+            Ok(r) => r,
+            Err(e) => return Err(EventRepoError::Other(e.to_string())),
+        } {
+            match Event::from_row(&row) {
+                Ok(event) => events_list.push(event),
+                Err(e) => return Err(EventRepoError::ParseError(e.to_string())),
+            }
+        }
+
+        Ok(events_list)
     }
 }

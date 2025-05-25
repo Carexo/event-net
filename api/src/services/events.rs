@@ -49,4 +49,11 @@ impl EventService {
             Err(e) => ApiResponse::message_only(e.to_string(), e.status())
         }
     }
+
+    pub async fn get_featured_events(&self) -> ApiResponse<Vec<Event>> {
+        match self.event_repo.get_featured().await {
+            Ok(events) => ApiResponse::success(events, "Events found successfully"),
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status())
+        }
+    }
 }
