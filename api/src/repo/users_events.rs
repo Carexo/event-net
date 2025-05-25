@@ -1,6 +1,8 @@
 use std::sync::Arc;
 use neo4rs::{query, Graph};
+use crate::models::event::Event;
 use crate::repo::{RepoError};
+use crate::repo::RepoError::Other;
 
 pub struct UserEventRepository {
     graph: Arc<Graph>
@@ -28,7 +30,7 @@ impl UserEventRepository {
             )
                 .param("n", user_name)
                 .param("id", event_id)
-        ).await.map_err(|e| RepoError::Other(e.to_string()))?;
+        ).await.map_err(|e| Other(e.to_string()))?;
         Ok(())
     }
     
@@ -48,7 +50,40 @@ impl UserEventRepository {
             )
                 .param("n", user_name)
                 .param("id", event_id)
-        ).await.map_err(|e| RepoError::Other(e.to_string()))?;
+        ).await.map_err(|e| Other(e.to_string()))?;
         Ok(())
+    }
+
+    pub async fn find_all_events_of_user(
+        &self,
+        user_name: &str,
+    ) -> Result<Vec<Event>, RepoError> {
+        let mut rows = self.graph.execute(
+            query(
+                "\
+                MATCH (u:User {name: $n})\
+                MATCH (u)-[:REGISTERED_TO]->(e:Event)\
+                OPTIONAL MATCH (e)-[:HAS]->(k:EventKeyword)\
+                RETURN
+                   e.id               AS eventId,
+                   e.name             AS eventName,
+                   e.startDatetime    AS start,
+                   collect(k.name)    AS keywords;\
+                "
+            )
+                .param("n", user_name)
+        ).await.map_err(|e| Other(e.to_string()))?;
+
+        let mut events = Vec::<Event>::new();
+
+        while let Some(row) = match rows.next().await {
+            Ok(r) => r,
+            Err(e) => return Err(Other(e.to_string())),
+        } {
+            let event: Event = Event::from_row(&row).map_err(|e| Other(e.to_string()))?;
+            events.push(event);
+        }
+
+        Ok(events)
     }
 }
