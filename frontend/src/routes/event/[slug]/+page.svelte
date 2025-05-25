@@ -2,12 +2,15 @@
     import type {PageProps} from './$types';
     import { onDestroy } from 'svelte';
     import {Heading, Img, Badge, Button, Toast} from "flowbite-svelte";
-    import {CalendarMonthSolid, TagSolid, UserAddSolid, ExclamationCircleSolid} from "flowbite-svelte-icons";
+    import {CalendarMonthSolid, TagSolid, UserAddSolid, BellOutline} from "flowbite-svelte-icons";
 
     import {selectedUser} from "$lib/stores/userStore";
+    import {getApiUrl} from "$lib/utils/api";
 
     let toastStatus = $state(false);
     let toastTimer: ReturnType<typeof setTimeout> | null = null;
+    let toastMessage = $state("Choose user first");
+    let toastColor: any = $state("red");
 
     let {data}: PageProps = $props();
 
@@ -26,17 +29,42 @@
         if (toastTimer) clearTimeout(toastTimer);
     });
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         if (!$selectedUser) {
+            toastColor = "red";
+            toastMessage = "Choose user first";
             toastStatus = true;
             return;
         }
 
         if (data.event) {
-            // Here you would typically handle the sign-up logic, e.g., API call
-            alert(`Signed up for event: ${data.event.name}`);
+            try {
+
+                const response = await fetch(getApiUrl(`/events/${data.event.id}/attendees/${$selectedUser}`), {
+                    method: 'PUT',
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to sign up for event');
+                }
+
+                const responseData = await response.json();
+
+                // Success message
+                toastColor = "green";
+                toastMessage = responseData.message;
+                toastStatus = true;
+            } catch (error) {
+                // Error message
+                toastColor = "red";
+                toastMessage = error instanceof Error ? error.message : 'An error occurred';
+                toastStatus = true;
+            }
         } else {
-            alert("No event data available.");
+            toastColor = "red";
+            toastMessage = "No event data available";
+            toastStatus = true;
         }
     };
 </script>
@@ -90,10 +118,12 @@
 </section>
 <Toast
         bind:toastStatus
-        color="red">
+        color={toastColor}
+        class="fixed bottom-5 right-5 z-50 max-w-xs w-full"
+>
     {#snippet icon()}
-        <ExclamationCircleSolid class="h-5 w-5"/>
-        <span class="sr-only">Warning icon</span>
+        <BellOutline class="h-6 w-6" />
+        <span class="sr-only">Bell icon</span>
     {/snippet}
-    Choose user first
+    {toastMessage}
 </Toast>

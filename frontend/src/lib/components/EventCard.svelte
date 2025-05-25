@@ -3,8 +3,9 @@
     import { ArrowRightOutline } from "flowbite-svelte-icons";
 
     export let id: number;
-    const img = `/events/${id % 10}.png`;
     export let title: string;
+
+    const img = `/events/${id % 10}.png`;
 </script>
 
 <Card {img} class="hover:shadow-xl transition-shadow">
