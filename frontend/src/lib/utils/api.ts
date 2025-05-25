@@ -4,8 +4,8 @@ export const getApiUrl = (path: string): string => {
     const url = PUBLIC_API_URL || 'http://localhost:3000';
 
     if (path.startsWith('/')) {
-        return `${PUBLIC_API_URL}${path}`;
+        return `${url}${path}`;
     }
 
-    return `${PUBLIC_API_URL}/${path}`;
+    return `${url}/${path}`;
 }
