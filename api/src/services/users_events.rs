@@ -1,5 +1,6 @@
 use std::sync::Arc;
 use rocket::http::Status;
+use crate::models::event::Event;
 use crate::repo::{ApiError};
 use crate::repo::users_events::UserEventRepository;
 use crate::services::events::EventService;
@@ -56,6 +57,21 @@ impl UserEventService {
         };
         match self.user_event_repo.unassign_user_from_event(user_name, event_id).await {
             Ok(_) => ApiResponse::message_only("User has been unassigned from event".to_string(), Status::Ok),
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status()),
+        }
+    }
+    
+    pub async fn find_all_events_of_user(
+        &self,
+        user_name: &str,
+    ) -> ApiResponse<Vec<Event>> {
+        match self.user_service.get_one(user_name).await {
+            Success {data: _, message: _, status: _ } => {},
+            MessageOnly {message: m, status: s} => return ApiResponse::message_only(m, s),
+        };
+        
+        match self.user_event_repo.find_all_events_of_user(user_name).await {
+            Ok(events) => ApiResponse::success(events, "Events are ready".to_string()),
             Err(e) => ApiResponse::message_only(e.to_string(), e.status()),
         }
     }

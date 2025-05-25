@@ -1,6 +1,7 @@
 use std::sync::Arc;
 use neo4rs::Graph;
 use rocket::{Route, State};
+use crate::models::event::Event;
 use crate::models::user::User;
 use crate::repo::users::UserRepository;
 use crate::services::users::UserService;
@@ -24,7 +25,7 @@ impl UserController {
     }
 
     pub fn routes() -> Vec<Route> {
-        routes![get_one, get_all]
+        routes![get_one, get_all, get_all_events_of_user]
     }
 }
 
@@ -36,4 +37,9 @@ pub async fn get_one(controller: &State<UserController>, user_name: &str) -> Api
 #[get("/users")]
 pub async fn get_all(controller: &State<UserController>) -> ApiResponse<Vec<User>> {
     controller.user_service.get_all().await
+}
+
+#[get("/user/<user_name>/events")]
+pub async fn get_all_events_of_user(controller: &State<UserController>, user_name: &str) -> ApiResponse<Vec<Event>> {
+    controller.user_event_service.find_all_events_of_user(user_name).await
 }
