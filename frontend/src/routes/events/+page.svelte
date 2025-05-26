@@ -23,6 +23,7 @@
                 <EventCard
                         id={event.id}
                         title={event.name}
+                        keywords={event.keywords}
                 />
             {/each}
         </section>
