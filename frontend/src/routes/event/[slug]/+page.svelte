@@ -6,6 +6,7 @@
 
     import {selectedUser} from "$lib/stores/userStore";
     import {getApiUrl} from "$lib/utils/api";
+    import KeywordsList from "$lib/components/KeywordsList.svelte";
 
     let toastStatus = $state(false);
     let toastTimer: ReturnType<typeof setTimeout> | null = null;
@@ -97,11 +98,7 @@
 
                     <div class="flex items-center gap-3">
                         <TagSolid class="w-6 h-6 text-blue-600 mt-1"/>
-                        <div class="flex flex-wrap gap-2">
-                            {#each data.event.keywords as keyword}
-                                <Badge color="blue" size="large">{keyword.trim()}</Badge>
-                            {/each}
-                        </div>
+                        <KeywordsList keywords={data.event.keywords} showIcon={false} />
                     </div>
                 </div>
 
