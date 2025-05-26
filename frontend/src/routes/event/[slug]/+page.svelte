@@ -1,40 +1,21 @@
 <script lang="ts">
     import type {PageProps} from './$types';
-    import { onDestroy } from 'svelte';
+    import {onDestroy} from 'svelte';
     import {Heading, Img, Badge, Button, Toast} from "flowbite-svelte";
     import {CalendarMonthSolid, TagSolid, UserAddSolid, BellOutline} from "flowbite-svelte-icons";
 
     import {selectedUser} from "$lib/stores/userStore";
     import {getApiUrl} from "$lib/utils/api";
     import KeywordsList from "$lib/components/KeywordsList.svelte";
+    import ToastNotification from "$lib/components/ToastNotification.svelte";
 
-    let toastStatus = $state(false);
-    let toastTimer: ReturnType<typeof setTimeout> | null = null;
-    let toastMessage = $state("Choose user first");
-    let toastColor: any = $state("red");
+    let toast: ToastNotification;
 
     let {data}: PageProps = $props();
 
-    $effect(() => {
-        if (toastStatus) {
-            if (toastTimer) clearTimeout(toastTimer);
-
-            toastTimer = setTimeout(() => {
-                toastStatus = false;
-                toastTimer = null;
-            }, 5000);
-        }
-    })
-
-    onDestroy(() => {
-        if (toastTimer) clearTimeout(toastTimer);
-    });
-
     const handleSignUp = async () => {
         if (!$selectedUser) {
-            toastColor = "red";
-            toastMessage = "Choose user first";
-            toastStatus = true;
+            toast.showToast("Please select a user first", "red");
             return;
         }
 
@@ -53,19 +34,14 @@
                 const responseData = await response.json();
 
                 // Success message
-                toastColor = "green";
-                toastMessage = responseData.message;
-                toastStatus = true;
+                toast.showToast(responseData.message, "green");
             } catch (error) {
                 // Error message
-                toastColor = "red";
-                toastMessage = error instanceof Error ? error.message : 'An error occurred';
-                toastStatus = true;
+                const toastMessage = error instanceof Error ? error.message : 'An error occurred';
+                toast.showToast(toastMessage, "red");
             }
         } else {
-            toastColor = "red";
-            toastMessage = "No event data available";
-            toastStatus = true;
+            toast.showToast("No event data available", "red");
         }
     };
 </script>
@@ -98,7 +74,7 @@
 
                     <div class="flex items-center gap-3">
                         <TagSolid class="w-6 h-6 text-blue-600 mt-1"/>
-                        <KeywordsList keywords={data.event.keywords} showIcon={false} />
+                        <KeywordsList keywords={data.event.keywords} showIcon={false}/>
                     </div>
                 </div>
 
@@ -113,14 +89,5 @@
     {/if}
 
 </section>
-<Toast
-        bind:toastStatus
-        color={toastColor}
-        class="fixed bottom-5 right-5 z-50 max-w-xs w-full"
->
-    {#snippet icon()}
-        <BellOutline class="h-6 w-6" />
-        <span class="sr-only">Bell icon</span>
-    {/snippet}
-    {toastMessage}
-</Toast>
+
+<ToastNotification bind:this={toast}/>

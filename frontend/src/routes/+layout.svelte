@@ -15,6 +15,7 @@
     <NavUl>
         <NavLi href="/">Home</NavLi>
         <NavLi href="/recommended-events">Recommended</NavLi>
+        <NavLi href="/my-events">My events</NavLi>
         <NavLi href="/users">Users</NavLi>
         <NavLi href="/events">All events</NavLi>
     </NavUl>
@@ -26,6 +27,7 @@
     <FooterCopyright href="/" by="Marceli Mietła & Bartosz Czyż™" year={2025} />
     <FooterLinkGroup class="mt-3 flex flex-wrap items-center text-sm text-gray-500 sm:mt-0 dark:text-gray-400">
         <FooterLink href="/recommended-events">Recommended</FooterLink>
+        <FooterLink href="/my-events">My events</FooterLink>
         <FooterLink href="/users">Users</FooterLink>
         <FooterLink href="/events">All events</FooterLink>
     </FooterLinkGroup>
