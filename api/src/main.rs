@@ -19,10 +19,6 @@ use crate::services::events::EventService;
 use crate::services::users::UserService;
 use crate::services::users_events::UserEventService;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
 
 #[launch]
 async fn rocket() -> _ {
@@ -64,8 +60,8 @@ async fn rocket() -> _ {
     rocket::build()
         .manage(event_controller)
         .manage(user_controller)
-        .mount("/", routes![index])
         .mount("/", EventController::routes())
         .mount("/", UserController::routes())
+        .register("/", utils::error_catcher::catchers())
         .attach(cors.to_cors().expect("Failed to create CORS fairing"))
 }
