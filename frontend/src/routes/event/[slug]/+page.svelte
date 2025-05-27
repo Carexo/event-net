@@ -1,8 +1,7 @@
 <script lang="ts">
     import type {PageProps} from './$types';
-    import {onDestroy} from 'svelte';
-    import {Heading, Img, Badge, Button, Toast} from "flowbite-svelte";
-    import {CalendarMonthSolid, TagSolid, UserAddSolid, BellOutline} from "flowbite-svelte-icons";
+    import {Heading, Img, Button} from "flowbite-svelte";
+    import {CalendarMonthSolid, TagSolid, UserAddSolid, BellOutline, UserRemoveSolid} from "flowbite-svelte-icons";
 
     import {selectedUser} from "$lib/stores/userStore";
     import {getApiUrl} from "$lib/utils/api";
@@ -12,6 +11,27 @@
     let toast: ToastNotification;
 
     let {data}: PageProps = $props();
+    let isRegistered = $state(false);
+
+    const checkRegistrationStatus = async () => {
+        if (!$selectedUser || !data.event) return;
+
+        try {
+            const response = await fetch(getApiUrl(`/events/${data.event.id}/attendees/${$selectedUser}`), {
+                method: 'GET',
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to check registration status');
+            }
+
+            const responseData = await response.json();
+            isRegistered = responseData.data;
+
+        } catch (error) {
+            console.error("Failed to check registration status:", error);
+        }
+    };
 
     const handleSignUp = async () => {
         if (!$selectedUser) {
@@ -34,6 +54,7 @@
                 const responseData = await response.json();
 
                 // Success message
+                isRegistered = true;
                 toast.showToast(responseData.message, "green");
             } catch (error) {
                 // Error message
@@ -44,6 +65,46 @@
             toast.showToast("No event data available", "red");
         }
     };
+
+    const handleUnregister = async () => {
+        if (!$selectedUser) {
+            toast.showToast("Please select a user first", "red");
+            return;
+        }
+
+        if (data.event) {
+            try {
+                const response = await fetch(getApiUrl(`/events/${data.event.id}/attendees/${$selectedUser}`), {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to unregister from event');
+                }
+
+                const responseData = await response.json();
+                isRegistered = false;
+                toast.showToast(responseData.message, "green");
+            } catch (error) {
+                const toastMessage = error instanceof Error ? error.message : 'An error occurred';
+                toast.showToast(toastMessage, "red");
+            }
+        } else {
+            toast.showToast("No event data available", "red");
+        }
+    };
+
+    // Check registration status on mount and when selected user changes
+    $effect(() => {
+        if ($selectedUser && data.event) {
+            checkRegistrationStatus();
+        }
+    });
+
+    // onMount(() => {
+    //     checkRegistrationStatus();
+    // });
 </script>
 
 <section class="flex gap-5 justify-between w-full">
@@ -79,10 +140,17 @@
                 </div>
 
                 <div class="flex justify-center mt-10 self-end">
-                    <Button size="xl" color="blue" class="px-12 py-3 text-lg" onclick={handleSignUp}>
-                        <UserAddSolid class="mr-3 h-6 w-6"/>
-                        Sign up for this event
-                    </Button>
+                    {#if isRegistered}
+                        <Button size="xl" color="red" class="px-12 py-3 text-lg" onclick={handleUnregister}>
+                            <UserRemoveSolid class="mr-3 h-6 w-6"/>
+                            Unregister from this event
+                        </Button>
+                    {:else}
+                        <Button size="xl" color="blue" class="px-12 py-3 text-lg" onclick={handleSignUp}>
+                            <UserAddSolid class="mr-3 h-6 w-6"/>
+                            Sign up for this event
+                        </Button>
+                    {/if}
                 </div>
             </div>
         </div>
