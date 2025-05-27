@@ -12,15 +12,6 @@
 
     let toast: ToastNotification;
 
-    onMount(() => {
-        if ($selectedUser) {
-            fetchUserEvents();
-        } else {
-            error = "Please select a user to view your events";
-            loading = false;
-        }
-    });
-
     $effect(() => {
         if ($selectedUser) {
             fetchUserEvents();

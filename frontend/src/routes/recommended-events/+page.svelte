@@ -14,16 +14,6 @@
 
     let toast: ToastNotification;
 
-
-    onMount(() => {
-        if ($selectedUser) {
-            fetchRecommendedEvents();
-        } else {
-            error = "Please select a user to view recommended events";
-            loading = false;
-        }
-    });
-
     $effect(() => {
         if ($selectedUser) {
             fetchRecommendedEvents();
