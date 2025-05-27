@@ -1,32 +1,32 @@
-use std::sync::Arc;
-use neo4rs::Graph;
-use rocket::{Route, State};
 use crate::models::event::Event;
 use crate::models::user::User;
 use crate::repo::users::UserRepository;
 use crate::services::users::UserService;
 use crate::services::users_events::UserEventService;
 use crate::utils::api_response::ApiResponse;
+use neo4rs::Graph;
+use rocket::{Route, State};
+use std::sync::Arc;
 
 pub struct UserController {
     user_service: Arc<UserService>,
-    user_event_service: Arc<UserEventService>
+    user_event_service: Arc<UserEventService>,
 }
 
 impl UserController {
-    pub fn new(
-        user_service: Arc<UserService>,
-        user_event_service: Arc<UserEventService>
-    ) -> Self {
+    pub fn new(user_service: Arc<UserService>, user_event_service: Arc<UserEventService>) -> Self {
         Self {
             user_service,
-            user_event_service
+            user_event_service,
         }
     }
 
     pub fn routes() -> Vec<Route> {
-        routes![get_one, get_all, get_all_events_of_user,
-            recommend_events_for_user_based_on_events_similarity
+        routes![
+            get_one,
+            get_all,
+            get_all_events_of_user,
+            recommend_events_for_user_based_on_events_similarity,
         ]
     }
 }
@@ -42,11 +42,23 @@ pub async fn get_all(controller: &State<UserController>) -> ApiResponse<Vec<User
 }
 
 #[get("/user/<user_name>/events")]
-pub async fn get_all_events_of_user(controller: &State<UserController>, user_name: &str) -> ApiResponse<Vec<Event>> {
-    controller.user_event_service.find_all_events_of_user(user_name).await
+pub async fn get_all_events_of_user(
+    controller: &State<UserController>,
+    user_name: &str,
+) -> ApiResponse<Vec<Event>> {
+    controller
+        .user_event_service
+        .find_all_events_of_user(user_name)
+        .await
 }
 
 #[get("/user/<user_name>/recommendations")]
-pub async fn recommend_events_for_user_based_on_events_similarity(controller: &State<UserController>, user_name: &str) -> ApiResponse<Vec<Event>> {
-    controller.user_event_service.recommend_events_for_user_based_on_events_similarity(user_name).await
+pub async fn recommend_events_for_user_based_on_events_similarity(
+    controller: &State<UserController>,
+    user_name: &str,
+) -> ApiResponse<Vec<Event>> {
+    controller
+        .user_event_service
+        .recommend_events_for_user_based_on_events_similarity(user_name)
+        .await
 }
