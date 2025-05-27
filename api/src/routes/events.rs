@@ -34,7 +34,8 @@ impl EventController {
             edit,
             assign_user_to_event,
             unassign_user_from_event,
-            get_featured
+            get_featured,
+            is_attendees_to_event
         ]
     }
 }
@@ -92,6 +93,18 @@ async fn unassign_user_from_event(
     controller
         .user_event_service
         .unassign_user_from_event(user_name, event_id)
+        .await
+}
+
+#[get("/events/<event_id>/attendees/<user_name>")]
+async fn is_attendees_to_event(
+    controller: &State<EventController>,
+    user_name: &str,
+    event_id: u16,
+) -> ApiResponse<bool> {
+    controller
+        .user_event_service
+        .is_user_registered_to_event(user_name, event_id)
         .await
 }
 
