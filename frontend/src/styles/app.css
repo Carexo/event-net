@@ -14,3 +14,8 @@ body {
     min-height: 100vh;
     margin: 0;
 }
+
+
+:root {
+    --date-picker-background: oklch(98.5% 0.002 247.839);
+}
