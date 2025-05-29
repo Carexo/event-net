@@ -3,13 +3,10 @@
     import type {PageProps} from './$types';
     import { goto } from '$app/navigation';
     import EventForm from "$lib/components/EventForm.svelte";
-    import ToastNotification from "$lib/components/ToastNotification.svelte";
 
     let {data}: PageProps = $props();
 
-    let toast: ToastNotification;
-
-    function handleSuccess(id: string) {
+    function handleSuccess(id: number) {
         setTimeout(() => goto(`/event/${id}`), 1500);
     }
 </script>
@@ -35,5 +32,3 @@
         {/if}
     </div>
 </div>
-
-<ToastNotification bind:this={toast}/>

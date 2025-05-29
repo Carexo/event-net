@@ -20,7 +20,7 @@
             keywords: string;
         };
         submitLabel: string;
-        onSuccess: (eventId: string) => void;
+        onSuccess: (eventId: number) => void;
     }
     // Props
     let {eventId, initialData, submitLabel, onSuccess}: EventFormProps = $props();
