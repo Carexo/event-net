@@ -92,28 +92,41 @@ impl EventRepository {
         Ok(events_list)
     }
 
-    pub async fn add(&self, event: Event) -> Result<Event, EventRepoError> {
+    pub async fn add(&self, event: EventUpdate) -> Result<Event, EventRepoError> {
+        if let Err(msg) = event.validate() {
+            return Err(EventRepoError::Other(msg));
+        }
+
         let mut result = self
             .graph
             .execute(
                 query(
                     "\
-            MERGE (e:Event { id: $eventId })
-            SET
-              e.name          = $eventName,
-              e.startDatetime = datetime($startDatetime)
-            WITH e
-            UNWIND $keywords AS kw
-              MERGE (k:EventKeyword { name: kw })
-              MERGE (e)-[:HAS]->(k)
-            RETURN
-               e.id               AS eventId,
-               e.name             AS eventName,
-               e.startDatetime    AS start,
-               collect(k.name)    AS keywords;
-               ",
+                // Find the max ID and increment by 1 for the new event
+                MATCH (e:Event)
+                WITH COALESCE(MAX(e.id), 0) + 1 AS newId
+
+                // Create the event with the new ID
+                CREATE (e:Event {
+                    id: newId,
+                    name: $eventName,
+                    startDatetime: datetime($startDatetime)
+                })
+
+                // Add keywords
+                WITH e
+                UNWIND $keywords AS kw
+                  MERGE (k:EventKeyword { name: kw })
+                  MERGE (e)-[:HAS]->(k)
+
+                // Return the created event
+                RETURN
+                   e.id               AS eventId,
+                   e.name             AS eventName,
+                   e.startDatetime    AS start,
+                   collect(k.name)    AS keywords
+                ",
                 )
-                .param("eventId", event.id)
                 .param("eventName", event.name)
                 .param("startDatetime", event.start_datetime)
                 .param("keywords", event.keywords),
@@ -153,6 +166,10 @@ impl EventRepository {
     }
 
     pub async fn edit(&self, id: u16, event_update: EventUpdate) -> Result<Event, EventRepoError> {
+        if let Err(msg) = event_update.validate() {
+            return Err(EventRepoError::Other(msg));
+        }
+
         let exists = self.find_by_id(id).await.is_ok();
         if !exists {
             return Err(EventRepoError::NotFound(id));
@@ -181,11 +198,8 @@ impl EventRepository {
                collect(k.name)    AS keywords;",
                 )
                 .param("eventId", id)
-                .param("eventName", event_update.name.unwrap_or("NULL".to_string()))
-                .param(
-                    "startDatetime",
-                    event_update.start_datetime.unwrap_or("NULL".to_string()),
-                )
+                .param("eventName", event_update.name)
+                .param("startDatetime", event_update.start_datetime)
                 .param("keywords", event_update.keywords),
             )
             .await?;

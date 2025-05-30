@@ -51,7 +51,7 @@ async fn get_one(controller: &State<EventController>, id: u16) -> ApiResponse<Ev
 }
 
 #[post("/event", format = "application/json", data = "<event>")]
-async fn add(controller: &State<EventController>, event: Json<Event>) -> ApiResponse<Event> {
+async fn add(controller: &State<EventController>, event: Json<EventUpdate>) -> ApiResponse<Event> {
     controller.event_service.add_event(event.into_inner()).await
 }
 

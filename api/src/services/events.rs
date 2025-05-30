@@ -29,7 +29,7 @@ impl EventService {
         }
     }
 
-    pub async fn add_event(&self, event: Event) -> ApiResponse<Event> {
+    pub async fn add_event(&self, event: EventUpdate) -> ApiResponse<Event> {
         match self.event_repo.add(event).await {
             Ok(event) => ApiResponse::success(event, "Events successfully created"),
             Err(e) => ApiResponse::message_only(format!("{}", e), Status::BadRequest)

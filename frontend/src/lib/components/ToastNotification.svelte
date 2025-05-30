@@ -3,7 +3,7 @@
     import { Toast } from "flowbite-svelte";
     import { BellOutline } from "flowbite-svelte-icons";
 
-    let {position = "bottom-5 right-5"} = $props();
+    let {position = "top-5 xl:top-25 left-5"} = $props();
 
     let toastStatus = $state(false);
     let toastMessage = $state("");

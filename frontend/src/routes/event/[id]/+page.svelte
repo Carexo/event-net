@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {PageProps} from './$types';
     import {Heading, Img, Button} from "flowbite-svelte";
-    import {CalendarMonthSolid, TagSolid, UserAddSolid, BellOutline, UserRemoveSolid} from "flowbite-svelte-icons";
+    import {EditSolid, CalendarMonthSolid, TagSolid, UserAddSolid, BellOutline, UserRemoveSolid} from "flowbite-svelte-icons";
 
     import {selectedUser} from "$lib/stores/userStore";
     import {getApiUrl} from "$lib/utils/api";
@@ -101,10 +101,6 @@
             checkRegistrationStatus();
         }
     });
-
-    // onMount(() => {
-    //     checkRegistrationStatus();
-    // });
 </script>
 
 <section class="flex gap-5 justify-between w-full">
@@ -129,7 +125,7 @@
                     <div class="flex items-center gap-3">
                         <CalendarMonthSolid class="w-6 h-6 text-blue-600"/>
                         <span class="text-lg text-gray-700 dark:text-gray-300">
-                            {new Date(data.event.start_datetime).toLocaleString()}
+                            {data.event.date.toLocaleString()}
                         </span>
                     </div>
 
@@ -139,7 +135,7 @@
                     </div>
                 </div>
 
-                <div class="flex justify-center mt-10 self-end">
+                <div class="flex justify-center mt-10 self-end space-x-4">
                     {#if isRegistered}
                         <Button size="xl" color="red" class="px-12 py-3 text-lg" onclick={handleUnregister}>
                             <UserRemoveSolid class="mr-3 h-6 w-6"/>
@@ -151,6 +147,10 @@
                             Sign up for this event
                         </Button>
                     {/if}
+                    <Button href={`/event/${data.event.id}/edit`} size="xl" color="gray" class="px-12 py-3 text-lg">
+                        <EditSolid class="mr-3 h-6 w-6"/>
+                        Edit Event
+                    </Button>
                 </div>
             </div>
         </div>

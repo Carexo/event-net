@@ -30,7 +30,27 @@ impl Event {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct EventUpdate {
-    pub name: Option<String>,
+    pub name: String,
     pub keywords: Vec<String>,
-    pub start_datetime: Option<String>
+    pub start_datetime: String
+}
+
+impl EventUpdate {
+    pub fn validate(&self) -> Result<(), String> {
+        if self.name.trim().is_empty() {
+            return Err("Event name is required".to_string());
+        }
+
+        // Check if start_datetime is empty
+        if self.start_datetime.trim().is_empty() {
+            return Err("Start datetime is required".to_string());
+        }
+
+        // Check if at least one keyword is provided
+        if self.keywords.is_empty() {
+            return Err("At least one keyword is required".to_string());
+        }
+
+        Ok(())
+    }
 }

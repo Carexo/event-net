@@ -16,7 +16,7 @@
                 Discover and join events that match your interests and connect with like-minded people.
             </p>
             <div class="flex gap-4">
-                <Button href="/events" color="primary" size="xl">Browse Events
+                <Button href="/events" class="text-black" size="xl">Browse Events
                     <ArrowRightOutline class="ml-2 h-5 w-5"/>
                 </Button>
                 <Button href="/users" outline color="light" size="xl">Connect with Others</Button>

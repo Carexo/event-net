@@ -18,6 +18,7 @@
         <NavLi href="/my-events">My events</NavLi>
         <NavLi href="/users">Users</NavLi>
         <NavLi href="/events">All events</NavLi>
+        <NavLi href="/event/add">Create event</NavLi>
     </NavUl>
 </Navbar>
 <main class="flex-grow">
@@ -30,5 +31,6 @@
         <FooterLink href="/my-events">My events</FooterLink>
         <FooterLink href="/users">Users</FooterLink>
         <FooterLink href="/events">All events</FooterLink>
+        <FooterLink href="/event/add">Create event</FooterLink>
     </FooterLinkGroup>
 </Footer>
