@@ -5,12 +5,11 @@
     import {goto} from "$app/navigation";
     let {data}: PageProps = $props();
 
-    const keywords = data.keywords?.map((item) => ({ value: item, name: item }));
+    const keywords = data.keywords?.map((item) => ({ value: item, name: item })) ?? [];
     const multiSelectPlaceholder = "keywords";
     let selected: string[] = $state(data.keywordsParams || []);
 
     const getSearchParams = () => {
-        console.log(selected);
         const searchParams = new URLSearchParams();
         selected.forEach(kw => searchParams.append("keyword", kw));
         goto(new URL(window.location.href).pathname + "?" + searchParams.toString());
