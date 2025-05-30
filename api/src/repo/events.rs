@@ -245,7 +245,6 @@ impl EventRepository {
     }
 
     pub async fn get_events_by_keywords(&self, keyword: Vec<String>) -> Result<Vec<Event>, EventRepoError> {
-        print!("{:?}", keyword);
         let mut rows = self.graph.execute(
             query(r#"
                 MATCH (e:Event)-[:HAS]->(k:EventKeyword)
@@ -268,5 +267,24 @@ impl EventRepository {
             events.push(event);
         }
         Ok(events)
+    }
+
+    pub async fn get_events_keywords(&self) -> Result<Vec<String>, EventRepoError> {
+        let mut rows = self.graph.execute(
+            query(r#"
+            MATCH (k:EventKeyword)
+            RETURN k.name
+            "#
+            )
+        ).await.map_err(|e| Other(e.to_string()))?;
+        let mut keywords = Vec::<String>::new();
+        while let Some(row) = match rows.next().await {
+            Ok(r) => r,
+            Err(e) => return Err(Other(e.to_string())),
+        } {
+            let keyword: String = row.get("k.name").map_err(|e| Other(e.to_string()))?;
+            keywords.push(keyword);
+        }
+        Ok(keywords)
     }
 }
