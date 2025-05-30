@@ -64,4 +64,11 @@ impl EventService {
             Err(e) => ApiResponse::message_only(e.to_string(), e.status())
         }
     }
+    
+    pub async fn get_events_keywords(&self) -> ApiResponse<Vec<String>> {
+        match self.event_repo.get_events_keywords().await {
+            Ok(keywords) => ApiResponse::success(keywords, "Keywords found successfully"),
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status())
+        }
+    }
 }
