@@ -28,6 +28,8 @@ export const load: PageServerLoad = async ({fetch, url}) => {
     } catch (error: any) {
         return {
             events: [] as EventCard[],
+						keywords: [],
+						keywordsParams: [],
             error: error.message
         };
     }
