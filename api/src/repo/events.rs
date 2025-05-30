@@ -3,6 +3,8 @@ use neo4rs::{Graph, Result, Row, query};
 use rocket::http::Status;
 use std::sync::Arc;
 use thiserror::Error;
+use crate::repo::ApiError;
+use crate::repo::events::EventRepoError::Other;
 
 #[derive(Error, Debug)]
 pub enum EventRepoError {
@@ -19,8 +21,8 @@ pub enum EventRepoError {
     Other(String),
 }
 
-impl EventRepoError {
-    pub fn status(&self) -> Status {
+impl ApiError for EventRepoError {
+    fn status(&self) -> Status {
         match self {
             EventRepoError::NotFound(_) => Status::NotFound,
             _ => Status::BadRequest,
@@ -240,5 +242,31 @@ impl EventRepository {
         }
 
         Ok(events_list)
+    }
+
+    pub async fn get_events_by_keywords(&self, keyword: Vec<String>) -> Result<Vec<Event>, EventRepoError> {
+        print!("{:?}", keyword);
+        let mut rows = self.graph.execute(
+            query(r#"
+                MATCH (e:Event)-[:HAS]->(k:EventKeyword)
+                WITH e, COLLECT(k.name) AS keywords
+                WHERE all(kw IN $kws WHERE kw IN keywords)
+                RETURN
+                    e.id               AS eventId,
+                    e.name             AS eventName,
+                    e.startDatetime    AS start,
+                    keywords
+            "#)
+                .param("kws", keyword)
+        ).await.map_err(|e| Other(e.to_string()))?;
+        let mut events = Vec::<Event>::new();
+        while let Some(row) = match rows.next().await {
+            Ok(r) => r,
+            Err(e) => return Err(Other(e.to_string())),
+        } {
+            let event: Event = Event::from_row(&row).map_err(|e|Other(e.to_string()))?;
+            events.push(event);
+        }
+        Ok(events)
     }
 }
