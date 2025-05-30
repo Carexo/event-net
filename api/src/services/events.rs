@@ -1,5 +1,6 @@
 use rocket::http::Status;
 use crate::models::event::{Event, EventUpdate};
+use crate::repo::ApiError;
 use crate::repo::events::{EventRepository, EventRepoError};
 use crate::utils::api_response::ApiResponse;
 
@@ -52,6 +53,13 @@ impl EventService {
 
     pub async fn get_featured_events(&self) -> ApiResponse<Vec<Event>> {
         match self.event_repo.get_featured().await {
+            Ok(events) => ApiResponse::success(events, "Events found successfully"),
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status())
+        }
+    }
+    
+    pub async fn get_events_by_keywords(&self, keyword: Vec<String>) -> ApiResponse<Vec<Event>> {
+        match self.event_repo.get_events_by_keywords(keyword).await {
             Ok(events) => ApiResponse::success(events, "Events found successfully"),
             Err(e) => ApiResponse::message_only(e.to_string(), e.status())
         }

@@ -35,7 +35,8 @@ impl EventController {
             assign_user_to_event,
             unassign_user_from_event,
             get_featured,
-            is_attendees_to_event
+            is_attendees_to_event,
+            get_events_by_keywords
         ]
     }
 }
@@ -111,4 +112,9 @@ async fn is_attendees_to_event(
 #[get("/events/featured")]
 async fn get_featured(controller: &State<EventController>) -> ApiResponse<Vec<Event>> {
     controller.event_service.get_featured_events().await
+}
+
+#[get("/events/filter?<keyword>")]
+async fn get_events_by_keywords(controller: &State<EventController>, keyword: Vec<String>) -> ApiResponse<Vec<Event>> {
+    controller.event_service.get_events_by_keywords(keyword).await
 }
