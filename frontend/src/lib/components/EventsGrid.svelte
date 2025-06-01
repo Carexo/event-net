@@ -21,7 +21,7 @@
             <p class="text-lg text-gray-600 dark:text-gray-400">{error}</p>
         </div>
     {:else}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 justify-self-center lg:grid-cols-3 gap-6">
             {#each events as event}
                 <EventCard
                         id={event.id}
