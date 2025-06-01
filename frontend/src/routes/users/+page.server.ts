@@ -37,7 +37,7 @@ export const load: PageServerLoad = async ({fetch, url}) => {
             pagination: {
                 total: 0,
                 page: 1,
-                limit: 5,
+                limit: USER_PAGINATION.DEFAULT_LIMIT,
                 pages: 0
             },
             error: error.message

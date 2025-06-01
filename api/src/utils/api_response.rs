@@ -12,6 +12,8 @@ pub enum ApiResponse<T> {
     Paginated {data: PaginatedResponse<T>, message: String, #[serde(skip)] status: Status}
 }
 
+pub type PaginatedItemsResponse<T> = ApiResponse<T>;
+
 impl<T: Serialize> ApiResponse<T> {
    pub fn paginated(data : PaginatedResponse<T>, message: impl Into<String>) -> Self {
        Self::Paginated {
