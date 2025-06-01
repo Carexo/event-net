@@ -33,27 +33,21 @@ impl UserEventService {
         event_id: u16,
     ) -> ApiResponse<String> {
         match self.user_service.get_one(user_name).await {
-            Success {
-                data: _,
-                message: _,
-                status: _,
-            } => {}
             MessageOnly {
                 message: m,
                 status: s,
             } => return ApiResponse::message_only(m, s),
+            _ => {}
         };
+
         match self.event_service.get_event(event_id).await {
-            Success {
-                data: _,
-                message: _,
-                status: _,
-            } => {}
             MessageOnly {
                 message: m,
                 status: s,
             } => return ApiResponse::message_only(m, s),
+            _ => {}
         };
+
         match self
             .user_event_repo
             .assign_user_to_event(user_name, event_id)
@@ -73,27 +67,21 @@ impl UserEventService {
         event_id: u16,
     ) -> ApiResponse<String> {
         match self.user_service.get_one(user_name).await {
-            Success {
-                data: _,
-                message: _,
-                status: _,
-            } => {}
             MessageOnly {
                 message: m,
                 status: s,
             } => return ApiResponse::message_only(m, s),
+            _ => {}
         };
+
         match self.event_service.get_event(event_id).await {
-            Success {
-                data: _,
-                message: _,
-                status: _,
-            } => {}
             MessageOnly {
                 message: m,
                 status: s,
             } => return ApiResponse::message_only(m, s),
+            _ => {}
         };
+
         match self
             .user_event_repo
             .unassign_user_from_event(user_name, event_id)
@@ -109,15 +97,11 @@ impl UserEventService {
 
     pub async fn find_all_events_of_user(&self, user_name: &str) -> ApiResponse<Vec<Event>> {
         match self.user_service.get_one(user_name).await {
-            Success {
-                data: _,
-                message: _,
-                status: _,
-            } => {}
             MessageOnly {
                 message: m,
                 status: s,
             } => return ApiResponse::message_only(m, s),
+            _ => {}
         };
 
         match self
@@ -135,15 +119,11 @@ impl UserEventService {
         user_name: &str,
     ) -> ApiResponse<Vec<Event>> {
         match self.user_service.get_one(user_name).await {
-            Success {
-                data: _,
-                message: _,
-                status: _,
-            } => {}
             MessageOnly {
                 message: m,
                 status: s,
             } => return ApiResponse::message_only(m, s),
+            _ => {}
         };
 
         match self
@@ -162,20 +142,20 @@ impl UserEventService {
         event_id: u16,
     ) -> ApiResponse<bool> {
         match self.user_service.get_one(user_name).await {
-            Success {
-                data: _,
-                message: _,
-                status: _,
-            } => {}
             MessageOnly {
                 message: m,
                 status: s,
             } => return ApiResponse::message_only(m, s),
+            _ => {}
         }
 
-        match self.user_event_repo.is_user_registered_to_event(user_name, event_id).await {
+        match self
+            .user_event_repo
+            .is_user_registered_to_event(user_name, event_id)
+            .await
+        {
             Ok(is_registered) => ApiResponse::success(is_registered, "User is registered to event"),
-            Err(e) => ApiResponse::message_only(e.to_string(), e.status())
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status()),
         }
     }
 }
