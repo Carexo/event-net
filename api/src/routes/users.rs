@@ -4,10 +4,10 @@ use crate::repo::users::UserRepository;
 use crate::services::users::UserService;
 use crate::services::users_events::UserEventService;
 use crate::utils::api_response::{ApiResponse, PaginatedItemsResponse};
+use crate::utils::pagination::PaginationParams;
 use neo4rs::Graph;
 use rocket::{Route, State};
 use std::sync::Arc;
-use crate::utils::pagination::PaginationParams;
 
 pub struct UserController {
     user_service: Arc<UserService>,
@@ -38,7 +38,10 @@ pub async fn get_one(controller: &State<UserController>, user_name: &str) -> Api
 }
 
 #[get("/users?<pagination..>")]
-pub async fn get_all(pagination: Option<PaginationParams>, controller: &State<UserController>) -> PaginatedItemsResponse<User> {
+pub async fn get_all(
+    pagination: Option<PaginationParams>,
+    controller: &State<UserController>,
+) -> PaginatedItemsResponse<User> {
     controller.user_service.get_all(pagination).await
 }
 
