@@ -3,9 +3,9 @@
         Button,
         Label,
         Input,
-        Timepicker
+        Timepicker,
+        Datepicker
     } from "flowbite-svelte";
-    import {DateInput} from 'date-picker-svelte'
     import {CalendarWeekSolid, TagSolid, ClockSolid} from "flowbite-svelte-icons";
     import ToastNotification from "$lib/components/ToastNotification.svelte";
     import {getApiUrl} from "$lib/utils/api";
@@ -129,8 +129,7 @@
                 <CalendarWeekSolid class="mr-2 h-5 w-5 text-blue-600"/>
                 Start Date*
             </Label>
-            <DateInput bind:value={selectedDate} format="yyyy-MM-dd" required closeOnSelection
-                       placeholder="Enter start date"/>
+            <Datepicker bind:value={selectedDate} required/>
         </div>
         <div>
             <Label class="mb-2 flex items-center">
