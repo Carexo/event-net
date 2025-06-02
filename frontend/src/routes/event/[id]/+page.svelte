@@ -1,17 +1,56 @@
 <script lang="ts">
     import type {PageProps} from './$types';
-    import {Heading, Img, Button} from "flowbite-svelte";
-    import {EditSolid, CalendarMonthSolid, TagSolid, UserAddSolid, BellOutline, UserRemoveSolid} from "flowbite-svelte-icons";
+    import {Heading, Img, Button, Modal} from "flowbite-svelte";
+    import {EditSolid, CalendarMonthSolid, TagSolid, UserAddSolid, BellOutline, UserRemoveSolid, TrashBinSolid} from "flowbite-svelte-icons";
 
     import {selectedUser} from "$lib/stores/userStore";
     import {getApiUrl} from "$lib/utils/api";
     import KeywordsList from "$lib/components/KeywordsList.svelte";
     import ToastNotification from "$lib/components/ToastNotification.svelte";
+    import {goto} from "$app/navigation";
 
     let toast: ToastNotification;
 
+    let deleteModalOpen = $state(false);
+    let isDeleting = $state(false);
+
     let {data}: PageProps = $props();
     let isRegistered = $state(false);
+
+    const handleDeleteEvent = async () => {
+        if (!data.event) {
+            toast.showToast("No event data available", "red");
+            return;
+        }
+
+        isDeleting = true;
+
+        try {
+            const response = await fetch(getApiUrl(`/event/${data.event.id}`), {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to delete event');
+            }
+
+            const responseData = await response.json();
+            toast.showToast(responseData.message || "Event deleted successfully", "green");
+
+            // Redirect to events page after successful deletion
+            setTimeout(() => {
+                goto('/events');
+            }, 1500);
+
+        } catch (error) {
+            const toastMessage = error instanceof Error ? error.message : 'An error occurred';
+            toast.showToast(toastMessage, "red");
+        } finally {
+            isDeleting = false;
+            deleteModalOpen = false;
+        }
+    };
 
     const checkRegistrationStatus = async () => {
         if (!$selectedUser || !data.event) return;
@@ -151,11 +190,33 @@
                         <EditSolid class="mr-3 h-6 w-6"/>
                         Edit Event
                     </Button>
+                    <Button size="xl" color="red" class="px-12 py-3 text-lg" onclick={() => deleteModalOpen = true}>
+                        <TrashBinSolid class="mr-3 h-6 w-6"/>
+                        Delete Event
+                    </Button>
                 </div>
             </div>
         </div>
     {/if}
 
+    <Modal bind:open={deleteModalOpen} size="md" autoclose>
+        <div class="text-center">
+            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                Are you sure you want to delete this event?
+            </h3>
+            <div class="flex justify-center gap-4">
+                <Button color="red" class="px-8" disabled={isDeleting} onclick={handleDeleteEvent}>
+                    {isDeleting ? 'Deleting...' : 'Yes, delete it'}
+                </Button>
+                <Button color="alternative" class="px-8" onclick={() => deleteModalOpen = false}>
+                    No, cancel
+                </Button>
+            </div>
+        </div>
+    </Modal>
 </section>
+
+
+
 
 <ToastNotification bind:this={toast}/>
