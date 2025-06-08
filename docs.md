@@ -1,38 +1,42 @@
-# Backend dokumentacja (Rust)
+#  Dokumentacja Backendu (Rust) 🚀
 
 ## Architektura
 
-Backend zbudowany jest w języku Rust z wykorzystaniem następujących bibliotek:
-- **rocket** - framework webowy
-- **neo4rs** - klient Neo4j dla Rust
-- **tokio** - asynchroniczny runtime
-- **serde** - serializacja/deserializacja JSON
+Backend aplikacji został zbudowany w języku **Rust** z wykorzystaniem nowoczesnych i wydajnych bibliotek, co gwarantuje wysoką niezawodność i szybkość działania.
 
-Architektura:
-- **Model** - struktury danych reprezentujące encje w bazie
-- **Controller** - funkcje obsługujące endpointy API
-- **Service** - logika biznesowa 
-- **Repo** - interakcja z bazą danych
+-   **Framework webowy:** [Rocket](https://rocket.rs/)
+-   **Klient bazy danych Neo4j:** [neo4rs](https://docs.rs/neo4rs/latest/neo4rs/)
+-   **Runtime asynchroniczny:** [Tokio](https://tokio.rs/)
+-   **Serializacja/deserializacja JSON:** [Serde](https://serde.rs/)
 
-## Struktury danych
+System opiera się na klasycznym podziale odpowiedzialności, inspirowanym architekturą warstwową:
+
+-   **Model:** Struktury danych (`struct`) reprezentujące encje w bazie (np. `Event`, `User`).
+-   **Controller:** Funkcje obsługujące endpointy API, odpowiedzialne za przyjmowanie żądań i zwracanie odpowiedzi.
+-   **Service:** Warstwa logiki biznesowej, gdzie realizowane są operacje na danych.
+-   **Repo:** Moduł odpowiedzialny za bezpośrednią interakcję z bazą danych Neo4j.
+
+---
+
+## Struktury Danych 💾
 
 ### Event
 
 ```rust
-/// Reprezentuje pojedyncze wydarzenie w systemie
+/// Reprezentuje pojedyncze wydarzenie w systemie.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Event {
-    /// Unikalny identyfikator wydarzenia
+    /// Unikalny identyfikator wydarzenia.
     pub id: i32,
-    /// Nazwa wydarzenia
+    /// Nazwa wydarzenia.
     pub name: String,
-    /// Data i czas rozpoczęcia wydarzenia w formacie ISO 8601
+    /// Data i czas rozpoczęcia wydarzenia w formacie ISO 8601.
     pub start_datetime: String,
-    /// Lista słów kluczowych powiązanych z wydarzeniem
+    /// Lista słów kluczowych powiązanych z wydarzeniem.
     pub keywords: Vec<String>,
 }
 
-/// Używane przy tworzeniu nowego wydarzenia
+/// Struktura używana przy tworzeniu nowego wydarzenia.
 #[derive(Debug, Deserialize)]
 pub struct CreateEventRequest {
     pub name: String,
@@ -40,7 +44,8 @@ pub struct CreateEventRequest {
     pub keywords: Vec<String>,
 }
 
-/// Używane przy aktualizacji istniejącego wydarzenia
+/// Struktura używana przy aktualizacji istniejącego wydarzenia.
+/// Wszystkie pola są opcjonalne.
 #[derive(Debug, Deserialize)]
 pub struct UpdateEventRequest {
     pub name: Option<String>,
@@ -52,16 +57,16 @@ pub struct UpdateEventRequest {
 ### User
 
 ```rust
-/// Reprezentuje użytkownika systemu
+/// Reprezentuje użytkownika systemu.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct User {
-    /// Unikalna nazwa użytkownika
+    /// Unikalna nazwa użytkownika (identyfikator).
     pub name: String,
-    /// Opcjonalny adres email
+    /// Opcjonalny adres email użytkownika.
     pub email: Option<String>,
 }
 
-/// Reprezentuje relację użytkownika z wydarzeniem
+/// Reprezentuje relację zapisu użytkownika na wydarzenie.
 #[derive(Debug, Serialize)]
 pub struct UserEventRegistration {
     pub user_name: String,
@@ -70,19 +75,25 @@ pub struct UserEventRegistration {
 }
 ```
 
-## Zarządzanie połaczeniem z baża Neo4j
+### Zarządzanie połączeniem z bazą Neo4j
+
+Połączenie z bazą jest zarządzane przez dedykowaną strukturę `Neo4jConnection`, która wykorzystuje `Arc<Graph>` do bezpiecznego współdzielenia puli połączeń w środowisku asynchronicznym.
+
 ```rust
+use neo4rs::{ConfigBuilder, Error, Graph};
+use std::sync::Arc;
+
 pub struct Neo4jConnection {
-pub graph: Arc<Graph>,
+    pub graph: Arc<Graph>,
 }
 
 impl Neo4jConnection {
-pub async fn new(uri: &str, user: &str, password: &str) -> Result<Self, Error> {
-let config = ConfigBuilder::default()
-.uri(uri)
-.user(user)
-.password(password)
-.build()?;
+    pub async fn new(uri: &str, user: &str, password: &str) -> Result<Self, Error> {
+        let config = ConfigBuilder::default()
+            .uri(uri)
+            .user(user)
+            .password(password)
+            .build()?;
 
         let graph = Arc::new(Graph::connect(config).await?);
 
@@ -91,287 +102,284 @@ let config = ConfigBuilder::default()
 }
 ```
 
-# Zapytania do bazy danych
+---
 
-## Wydarzenia
+## Zapytania do Bazy Danych (Cypher) 🔍
 
-1. Pobranie wydarzenia po identyfikatorze
+Poniżej znajdują się kluczowe zapytania Cypher używane w aplikacji do zarządzania danymi w grafie Neo4j.
 
-To zapytanie znajduje dokładnie jedno wydarzenie o podanym id, zwraca jego podstawowe dane (id, nazwa, data rozpoczęcia) oraz wszystkie słowa kluczowe z nim powiązane. Idealne, gdy chcemy wyświetlić szczegóły konkretnego wydarzenia.
+### Wydarzenia
 
+#### 1. Pobranie wydarzenia po identyfikatorze
+**Opis:** Znajduje konkretne wydarzenie na podstawie jego `id` i zwraca jego dane wraz z listą powiązanych słów kluczowych.
 ```cypher
 MATCH (e:Event {id: $id})
 OPTIONAL MATCH (e)-[:HAS]->(k:EventKeyword)
 RETURN
-e.id            AS eventId,
-e.name          AS eventName,
-e.startDatetime AS start,
-collect(k.name) AS keywords;
+    e.id            AS eventId,
+    e.name          AS eventName,
+    e.startDatetime AS start,
+    collect(k.name) AS keywords
 ```
+-   `OPTIONAL MATCH` zapewnia, że zapytanie zadziała nawet, jeśli wydarzenie nie ma żadnych słów kluczowych.
+-   `collect(k.name)` agreguje nazwy wszystkich powiązanych słów kluczowych do jednej listy.
 
-- MATCH (e:Event {id: $id}) – wybór wydarzenia o danym kluczu
-- OPTIONAL MATCH … HAS → k – pobranie słów kluczowych, ale bez błędu, jeśli nie ma ich w ogóle
-- collect(k.name) – umieszcza wszystkie nazwy słów kluczowych w jednej liście
-
----
-
-2. Pobranie wszystkich wydarzeń
-
-Zwraca listę wszystkich wydarzeń w bazie wraz z ich słowami kluczowymi. Przydaje się np. do budowania widoku „Wszystkie wydarzenia” na froncie.
-
-```angular2html
-
+#### 2. Pobranie wszystkich wydarzeń
+**Opis:** Zwraca listę wszystkich wydarzeń w bazie wraz z ich słowami kluczowymi.
+```cypher
 MATCH (e:Event)
 OPTIONAL MATCH (e)-[:HAS]->(k:EventKeyword)
 RETURN
-e.id            AS eventId,
-e.name          AS eventName,
-e.startDatetime AS start,
-collect(k.name) AS keywords;
+    e.id            AS eventId,
+    e.name          AS eventName,
+    e.startDatetime AS start,
+    collect(k.name) AS keywords
 ```
 
-- Przechodzi przez każdy węzeł Event
-- Dla każdego zbiera powiązane słowa kluczowe
-
----
-
-3. Dodawanie nowego wydarzenia
-
-Tworzy węzeł Event z automatycznie przydzielonym id +1 względem naj­wyższego istniejącego, ustawia nazwę i datę, a następnie tworzy lub łączy słowa kluczowe (unikalne dzięki constraintowi) i łączy je relacją HAS. Na koniec zwraca pełne dane nowo utworzonego wydarzenia.
-
+#### 3. Dodawanie nowego wydarzenia
+**Opis:** Tworzy nowy węzeł `Event`, dynamicznie przydziela mu `id` (o 1 większe od maksymalnego istniejącego), a następnie tworzy lub łączy podane słowa kluczowe.
 ```cypher
-// 1. Wyliczenie nowego ID
+// 1. Znajdź maksymalne istniejące ID i dodaj 1
 MATCH (e:Event)
 WITH COALESCE(MAX(e.id), 0) + 1 AS newId
 
-// 2. Utworzenie węzła Event
+// 2. Utwórz węzeł Event z nowym ID i danymi z parametrów
 CREATE (e:Event {
-id: newId,
-name: $eventName,
-startDatetime: datetime($startDatetime)
+    id: newId,
+    name: $eventName,
+    startDatetime: datetime($startDatetime)
 })
 
-// 3. Powiązanie słów kluczowych
+// 3. Dla każdego słowa kluczowego z listy, utwórz węzeł (jeśli nie istnieje) i połącz z wydarzeniem
 WITH e
 UNWIND $keywords AS kw
 MERGE (k:EventKeyword { name: kw })
 MERGE (e)-[:HAS]->(k)
 
-// 4. Zwrócenie utworzonego wydarzenia
+// 4. Zwróć dane nowo utworzonego wydarzenia
 RETURN
-e.id            AS eventId,
-e.name          AS eventName,
-e.startDatetime AS start,
-collect(k.name) AS keywords;
+    e.id            AS eventId,
+    e.name          AS eventName,
+    e.startDatetime AS start,
+    collect(k.name) AS keywords
 ```
+-   `COALESCE(MAX(e.id), 0) + 1` bezpiecznie inkrementuje ID, startując od 1, jeśli baza jest pusta.
+-   `MERGE` zapobiega tworzeniu duplikatów słów kluczowych.
 
-- COALESCE(MAX(e.id), 0)+1 – nawet jeśli nie ma żadnego wydarzenia, id zaczyna się od 1
-- MERGE gwarantuje, że dla każdego słowa kluczowego powstanie tylko jeden węzeł
-
----
-
-4. Usunięcie wydarzenia
-
-Błyskawicznie usuwa węzeł wydarzenia o danym id wraz ze wszystkimi relacjami do innych węzłów (np. HAS czy REGISTERED_TO). Stosujemy DETACH DELETE, żeby nie zostawić „wiszących” relacji.
-
-```
+#### 4. Usunięcie wydarzenia
+**Opis:** Usuwa węzeł wydarzenia o podanym `id` oraz wszystkie jego relacje.
+```cypher
 MATCH (e:Event {id: $eventId})
-DETACH DELETE e;
+DETACH DELETE e
 ```
+-   `DETACH DELETE` kasuje węzeł wraz ze wszystkimi jego połączeniami, zapobiegając pozostawieniu "osieroconych" relacji.
 
-- DETACH DELETE – kasuje i węzeł, i wszystkie połączenia z nim
-
----
-
-5. Edycja wydarzenia
-
-Wyszukuje wydarzenie, nadpisuje jego nazwę i/lub datę tylko jeśli przekazano nowe wartości, a jeśli nie — pozostawia stare. Następnie czyści wszystkie stare relacje do słów kluczowych i tworzy nowe na podstawie przekazanej listy.
-
-```
+#### 5. Edycja wydarzenia
+**Opis:** Aktualizuje dane wydarzenia. Nadpisuje tylko te pola, które zostały przekazane w parametrach. Usuwa stare powiązania ze słowami kluczowymi i tworzy nowe na podstawie dostarczonej listy.
+```cypher
+// 1. Znajdź wydarzenie i zaktualizuj pola, jeśli nowe wartości nie są puste
 MATCH (e:Event {id: $eventId})
 SET
-e.name          = coalesce($eventName, e.name),
-e.startDatetime = coalesce(datetime($startDatetime), e.startDatetime)
+    e.name = coalesce($eventName, e.name),
+    e.startDatetime = coalesce(datetime($startDatetime), e.startDatetime)
 WITH e
-OPTIONAL MATCH (e)-[oldRel:HAS]->(oldK:EventKeyword)
+
+// 2. Usuń stare relacje do słów kluczowych
+OPTIONAL MATCH (e)-[oldRel:HAS]->(:EventKeyword)
 DELETE oldRel
 WITH e
+
+// 3. Utwórz nowe relacje do słów kluczowych
 UNWIND $keywords AS kw
 MERGE (k:EventKeyword { name: kw })
 MERGE (e)-[:HAS]->(k)
+
+// 4. Zwróć zaktualizowane wydarzenie
 RETURN
-e.id AS eventId,
-e.name AS eventName,
-e.startDatetime AS start,
-collect(k.name) AS keywords;
+    e.id            AS eventId,
+    e.name          AS eventName,
+    e.startDatetime AS start,
+    collect(k.name) AS keywords
 ```
+-   `coalesce()` pozwala na warunkową aktualizację – jeśli parametr jest `null`, zachowuje starą wartość.
 
-- coalesce pozwala pominąć zmianę, gdy parametr jest null
-- Usunięcie starych relacji gwarantuje, że po edycji nie zostanie „martwy” link do nieużywanego słowa
-
----
-
-6. Pobranie wyróżnionych wydarzeń
-
-Po prostu zwraca pierwsze trzy wydarzenia (kolejność zgodna z wewnętrznym porządkiem bazy), wraz ze słowami kluczowymi. Można to wykorzystać jako „polecane” lub „na górze listy”.
-
-```
+#### 6. Pobranie wyróżnionych wydarzeń
+**Opis:** Zwraca ograniczoną liczbę wydarzeń (np. 3), które mogą być użyte jako "polecane" lub "najnowsze".
+```cypher
 MATCH (e:Event)
 OPTIONAL MATCH (e)-[:HAS]->(k:EventKeyword)
 RETURN
-e.id AS eventId,
-e.name AS eventName,
-e.startDatetime AS start,
-collect(k.name) AS keywords
-LIMIT 3;
+    e.id            AS eventId,
+    e.name          AS eventName,
+    e.startDatetime AS start,
+    collect(k.name) AS keywords
+LIMIT 3
+```
 
-    •	LIMIT 3 – ogranicza wynik do trzech rekordów
-
-⸻
-
-7. Wyszukiwanie wydarzeń po słowach kluczowych
-
-Co robi?
-Filtruje listę wszystkich wydarzeń i pozostawia tylko te, które mają w sobie wszystkie słowa kluczowe podsłane w parametrze $kws. Przydatne do wyszukiwania precyzyjnego: np. „tylko te z ['konferencja','tech']”.
-
+#### 7. Wyszukiwanie wydarzeń po słowach kluczowych
+**Opis:** Filtruje wydarzenia, zwracając tylko te, które są powiązane ze *wszystkimi* słowami kluczowymi z podanej listy.
+```cypher
 MATCH (e:Event)-[:HAS]->(k:EventKeyword)
 WITH e, COLLECT(k.name) AS keywords
 WHERE all(kw IN $kws WHERE kw IN keywords)
 RETURN
-e.id AS eventId,
-e.name AS eventName,
-e.startDatetime AS start,
-keywords;
+    e.id            AS eventId,
+    e.name          AS eventName,
+    e.startDatetime AS start,
+    keywords
 ```
+-   `all(...)` działa jak predykat, który jest prawdziwy tylko wtedy, gdy wszystkie elementy z listy `$kws` znajdują się w zebranej liście `keywords` wydarzenia.
 
-- all(kw IN $kws WHERE kw IN keywords) – wymaga, by każdy element z listy $kws był obecny w keywords
-
----
-
-8. Pobranie wszystkich słów kluczowych
-
-Wyciąga wszystkie unikalne nazwy węzłów EventKeyword z grafu. Można nimi wypełnić dropdown z filtrami po słowach.
-
-```
+#### 8. Pobranie wszystkich słów kluczowych
+**Opis:** Zwraca listę wszystkich unikalnych nazw słów kluczowych istniejących w bazie.
+```cypher
 MATCH (k:EventKeyword)
-RETURN k.name;
+RETURN k.name
 ```
 
 ---
 
-## Użytkownicy
+### Użytkownicy i Rejestracje
 
-1. Przypisanie użytkownika do wydarzenia
-
-Tworzy relację REGISTERED_TO między istniejącym użytkownikiem a wybranym wydarzeniem, jeśli jeszcze jej nie ma. Umożliwia późniejsze sprawdzanie, kto się zapisał.
-
-```
-MATCH (u:User {name: $n})
-MATCH (e:Event {id: $id})
-MERGE (u)-[:REGISTERED_TO]->(e);
+#### 1. Przypisanie użytkownika do wydarzenia
+**Opis:** Tworzy relację `REGISTERED_TO` pomiędzy użytkownikiem a wydarzeniem, o ile taka relacja jeszcze nie istnieje.
+```cypher
+MATCH (u:User {name: $userName})
+MATCH (e:Event {id: $eventId})
+MERGE (u)-[:REGISTERED_TO]->(e)
 ```
 
-- MERGE – nie dodaje duplikatu relacji
-
----
-
-2. Usunięcie przypisania użytkownika
-
-Jeśli użytkownik był przypisany do wydarzenia, usuwa tę konkretną relację. Użyteczne przy wyrejestrowywaniu.
-
-```
-MATCH (u:User {name: $n})
-MATCH (e:Event {id: $id})
-MATCH (u)-[r:REGISTERED_TO]->(e)
-DELETE r;
+#### 2. Usunięcie przypisania użytkownika do wydarzenia
+**Opis:** Usuwa relację `REGISTERED_TO` między użytkownikiem a wydarzeniem.
+```cypher
+MATCH (u:User {name: $userName})-[r:REGISTERED_TO]->(e:Event {id: $eventId})
+DELETE r
 ```
 
----
-
-3. Pobranie wszystkich wydarzeń danego użytkownika
-
-Zwraca pełną listę wydarzeń, na które użytkownik się zapisał, razem ze słowami kluczowymi każdego. Pozwala np. na wyświetlenie „Moje wydarzenia” w profilu.
-
-```
-MATCH (u:User {name: $n})
-MATCH (u)-[:REGISTERED_TO]->(e:Event)
+#### 3. Pobranie wszystkich wydarzeń danego użytkownika
+**Opis:** Zwraca listę wydarzeń, na które zapisał się dany użytkownik.
+```cypher
+MATCH (:User {name: $userName})-[:REGISTERED_TO]->(e:Event)
 OPTIONAL MATCH (e)-[:HAS]->(k:EventKeyword)
 RETURN
-e.id AS eventId,
-e.name AS eventName,
-e.startDatetime AS start,
-collect(k.name) AS keywords;
+    e.id            AS eventId,
+    e.name          AS eventName,
+    e.startDatetime AS start,
+    collect(k.name) AS keywords
+```
+
+#### 4. Sprawdzenie, czy użytkownik jest zarejestrowany na wydarzenie
+**Opis:** Zwraca `true` lub `false` w zależności od tego, czy istnieje relacja `REGISTERED_TO` między użytkownikiem a wydarzeniem.
+```cypher
+MATCH (u:User {name: $userName}), (e:Event {id: $eventId})
+RETURN EXISTS((u)-[:REGISTERED_TO]->(e)) AS isAttending
 ```
 
 ---
 
-4. Sprawdzenie, czy użytkownik jest zarejestrowany
+## System Rekomendacji ✨
 
-Zwraca jednobitową odpowiedź (true/false), czy istnieje relacja REGISTERED_TO między danym użytkownikiem a danym wydarzeniem. Użyteczne np. do sterowania przyciskiem „Zapisz/Wypisz się”.
+### 1. Rekomendacja na podstawie podobieństwa słów kluczowych (Jaccard)
+**Opis:** System wyszukuje przyszłe wydarzenia, w których użytkownik jeszcze nie bierze udziału. Rekomendacje opierają się na **współczynniku podobieństwa Jaccarda** między zbiorami słów kluczowych wydarzeń, na które użytkownik jest już zapisany, a innymi wydarzeniami. Zwracane są tylko te wydarzenia, których współczynnik podobieństwa przekracza próg `0.5`.
 
-```
-MATCH (u:User {name: $n}), (e:Event {id: $id})
-RETURN EXISTS((u)-[:REGISTERED_TO]->(e)) AS isAttending;
-```
+```cypher
+// 1. Znajdź wydarzenia, na które zapisany jest użytkownik (u)
+MATCH (u:User {name: $userName})-[:REGISTERED_TO]->(e:Event)
 
----
+// 2. Znajdź inne, przyszłe wydarzenia (other), w których użytkownik nie uczestniczy
+MATCH (e)-[:HAS]->(k:EventKeyword)<-[:HAS]-(other:Event)
+WHERE other.startDatetime > datetime() AND NOT (u)-[:REGISTERED_TO]->(other)
 
-## Rekomendacje
-
-1. Rekomendacja wydarzeń na podstawie podobieństwa
-
-Dla każdego wydarzenia, na które użytkownik się zapisał, sprawdza inne (przyszłe) wydarzenia mające wspólne słowa kluczowe, oblicza miarę Jaccarda dla zbiorów słów i wybiera te, w których współczynnik podobieństwa przekracza 0.5. Wyniki sortuje malejąco po tym współczynniku — czyli najpierw te najbardziej „podobne”.
-
-```
-MATCH (u:User {name: $n})-[:REGISTERED_TO]->(e:Event)-[:HAS]->(k:EventKeyword)
-<-[:HAS]-(other:Event WHERE other.startDatetime > datetime())
-WHERE NOT EXISTS((u)-[:REGISTERED_TO]->(other))
-WITH e, other, count(k) AS intersection,
-[(e)-[:HAS]->(ek) | ek.name] AS set1,
-[(other)-[:HAS]->(ok) | ok.name] AS set2
+// 3. Oblicz współczynnik Jaccarda
 WITH other,
-(1.0 \* intersection) / size(set1 + [x IN set2 WHERE NOT x IN set1]) AS jaccard,
-set2 AS keywords
+     // Zlicz wspólne słowa kluczowe (przecięcie zbiorów)
+     count(k) AS intersection,
+     // Zbierz słowa kluczowe z obu wydarzeń
+     [(e)-[:HAS]->(ek) | ek.name] AS set1,
+     [(other)-[:HAS]->(ok) | ok.name] AS set2
+WITH other,
+     // Oblicz Jaccard = |A ∩ B| / |A ∪ B|
+     (1.0 * intersection) / size(set1 + [x IN set2 WHERE NOT x IN set1]) AS jaccard,
+     set2 AS keywords
+
+// 4. Odfiltruj wyniki poniżej progu i posortuj
 WHERE jaccard > 0.5
 RETURN
-other.id AS eventId,
-other.name AS eventName,
-other.startDatetime AS start,
-keywords
-ORDER BY jaccard DESC;
+    other.id            AS eventId,
+    other.name          AS eventName,
+    other.startDatetime AS start,
+    keywords
+ORDER BY jaccard DESC
 ```
 
-- intersection – ile słów wspólnych
-- size(set1 ∪ set2) – rozmiar sumy zbiorów (potrzebny do Jaccard)
-- jaccard > 0.5 – próg, który uznajemy za wystarczająco podobne
+### 2. Rekomendacja z użyciem osadzeń grafowych (Graph Embeddings & KNN)
+**Opis:** Bardziej zaawansowane podejście, które wykorzystuje uczenie maszynowe do znalezienia "podobnych" użytkowników. Proces polega na wygenerowaniu wektorowych reprezentacji (osadzeń) dla użytkowników i wydarzeń, a następnie znalezieniu użytkowników o najbardziej zbliżonych wektorach.
 
----
+#### Krok 1: Projekcja grafu do pamięci GDS
+Tworzymy wirtualny graf w pamięci, zawierający tylko użytkowników, wydarzenia i relacje `REGISTERED_TO`.
 
-2. Rekomendacja wydarzeń na podstawie podobnych użytkowników
-
-To zapytanie znajduje innych użytkowników, którzy są powiązani relacją SIMILAR z danym użytkownikiem, następnie zbiera wszystkie przyszłe wydarzenia, na które ci podobni użytkownicy się zapisali, ale w których oryginalny użytkownik jeszcze nie uczestniczy. Wynikiem jest lista unikalnych rekomendowanych wydarzeń wraz z ich słowami kluczowymi.
-
+```cypher
+CALL gds.graph.project(
+    'registrations',
+    ['User', 'Event'],
+    {
+        REGISTERED_TO: {
+            orientation: 'UNDIRECTED'
+        }
+    }
+)
 ```
-MATCH (u:User {name: $n})-[r:REGISTERED_TO]->(e:Event)
-WITH COLLECT(e) AS events, u
-// Znajdź użytkowników podobnych do u i ich wydarzenia
-MATCH (u)-[s:SIMILAR]->(:User)-[:REGISTERED_TO]->(ee:Event
-WHERE ee.startDatetime > datetime()
-AND NOT ee IN events)
-WITH DISTINCT ee
-// Pobierz słowa kluczowe rekomendowanych wydarzeń
-OPTIONAL MATCH (ee)-[:HAS]->(k:EventKeyword)
+
+#### Krok 2: Generowanie osadzeń (embeddings) metodą FastRP
+Uruchamiamy algorytm FastRP, aby dla każdego węzła w grafie wygenerować wektor cech (embedding).
+
+```cypher
+CALL gds.fastRP.mutate(
+    'registrations',
+    {
+        embeddingDimension: 256,
+        iterationWeights: [0.8, 1, 1, 1],
+        mutateProperty: 'embedding'
+    }
+)
+```
+
+#### Krok 3: Obliczenie podobieństw i zapisanie relacji `SIMILAR`
+Algorytm KNN (k-najbliższych sąsiadów) oblicza podobieństwo między użytkownikami na podstawie ich osadzeń i tworzy nowe relacje `SIMILAR` między najbardziej podobnymi.
+
+```cypher
+CALL gds.knn.write(
+    'registrations',
+    {
+        nodeLabels: ['User'],
+        nodeProperties: ['embedding'],
+        topK: 10,
+        writeRelationshipType: 'SIMILAR',
+        writeProperty: 'score'
+    }
+)
+```
+
+#### Krok 4: Rekomendacja wydarzeń na podstawie podobnych użytkowników
+Finalne zapytanie wyszukuje wydarzenia, w których uczestniczą użytkownicy `podobni` do naszego, a w których nasz użytkownik jeszcze nie bierze udziału.
+
+```cypher
+// 1. Znajdź wydarzenia, w których uczestniczy docelowy użytkownik (u)
+MATCH (u:User {name: $userName})-[:REGISTERED_TO]->(e:Event)
+WITH u, COLLECT(DISTINCT e) AS userEvents
+
+// 2. Znajdź podobnych użytkowników (similarUser) i ich wydarzenia (recEvent)
+MATCH (u)-[:SIMILAR]->(similarUser)-[:REGISTERED_TO]->(recEvent:Event)
+
+// 3. Odfiltruj wydarzenia, które już są na liście użytkownika i są przyszłe
+WHERE recEvent.startDatetime > datetime() AND NOT recEvent IN userEvents
+
+// 4. Zbierz unikalne rekomendacje i ich słowa kluczowe
+WITH DISTINCT recEvent
+OPTIONAL MATCH (recEvent)-[:HAS]->(k:EventKeyword)
 RETURN
-ee.id AS eventId,
-ee.name AS eventName,
-ee.startDatetime AS start,
-collect(k.name) AS keywords;
+    recEvent.id AS eventId,
+    recEvent.name AS eventName,
+    recEvent.startDatetime AS start,
+    collect(k.name) AS keywords
 ```
-
-- Pierwszy MATCH + COLLECT – zbiera jako listę wszystkie wydarzenia, do których użytkownik u jest zapisany.
-- Drugi MATCH – z węzła u przez relację SIMILAR przechodzi do innych użytkowników, a następnie ich relacjami REGISTERED_TO do wydarzeń ee.
-- Warunki w WHERE:
-- ee.startDatetime > datetime() — tylko wydarzenia jeszcze nieodbyte (przyszłe).
-- NOT ee IN events — wyklucza wydarzenia, w których użytkownik już bierze udział.
-- WITH DISTINCT ee — gwarantuje, że nie pojawią się duplikaty, jeśli wielu podobnych użytkowników jest zapisanych na to samo wydarzenie.
-- OPTIONAL MATCH … HAS → k i collect(k.name) – dopełnia wynik listą słów kluczowych dla każdego rekomendowanego wydarzenia.
