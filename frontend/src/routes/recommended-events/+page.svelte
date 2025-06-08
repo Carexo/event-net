@@ -1,16 +1,18 @@
 <script lang="ts">
-    import {onMount, onDestroy} from 'svelte';
-    import {Toast} from "flowbite-svelte";
-    import {BellOutline} from "flowbite-svelte-icons";
-    import {selectedUser} from "$lib/stores/userStore";
-    import {getApiUrl} from "$lib/utils/api";
-    import type {EventCard} from "$lib/types/event";
+    import { onMount } from 'svelte';
+    import { Toast } from "flowbite-svelte";
+    import { BellOutline } from "flowbite-svelte-icons";
+    import { Toggle } from "flowbite-svelte";
+    import { selectedUser } from "$lib/stores/userStore";
+    import { getApiUrl } from "$lib/utils/api";
+    import type { EventCard } from "$lib/types/event";
     import EventsGrid from "$lib/components/EventsGrid.svelte";
     import ToastNotification from "$lib/components/ToastNotification.svelte";
 
     let loading = $state(true);
     let events: EventCard[] = $state([]);
     let error: string | null = $state(null);
+    let recommendationVersion = $state(1);
 
     let toast: ToastNotification;
 
@@ -29,7 +31,9 @@
         error = null;
 
         try {
-            const response = await fetch(getApiUrl(`/user/${$selectedUser}/recommendations`));
+            const response = await fetch(
+                getApiUrl(`/user/${$selectedUser}/recommendations/${recommendationVersion}`)
+            );
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -49,13 +53,30 @@
             loading = false;
         }
     }
+
+    function toggleRecommendationVersion() {
+        recommendationVersion = recommendationVersion === 1 ? 2 : 1;
+        fetchRecommendedEvents();
+    }
 </script>
 
+<div class="m-4 flex items-center gap-4">
+    <Toggle
+        onchange={() => toggleRecommendationVersion()}
+        label="Toggle Recommendation Version"
+    />
+    <span class="text-sm text-gray-600">
+        Showing recommendation {recommendationVersion === 1 ? "based on events similiarity" : "based on users similiarity"}
+    </span>
+</div>
+
+<!-- Events Grid -->
 <EventsGrid
-        title="Recommended Events"
-        {events}
-        {loading}
-        {error}
+    title="Recommended Events"
+    {events}
+    {loading}
+    {error}
 />
 
-<ToastNotification bind:this={toast}/>
+<!-- Toast Notifications -->
+<ToastNotification bind:this={toast} />
