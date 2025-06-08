@@ -1,6 +1,5 @@
 use crate::models::event::Event;
 use crate::models::user::User;
-use crate::repo::users::UserRepository;
 use crate::services::users::UserService;
 use crate::services::users_events::UserEventService;
 use crate::utils::api_response::{ApiResponse, PaginatedItemsResponse};
@@ -28,6 +27,7 @@ impl UserController {
             get_all,
             get_all_events_of_user,
             recommend_events_for_user_based_on_events_similarity,
+            recommend_events_for_user_based_on_users_similarity,
         ]
     }
 }
@@ -56,7 +56,7 @@ pub async fn get_all_events_of_user(
         .await
 }
 
-#[get("/user/<user_name>/recommendations")]
+#[get("/user/<user_name>/recommendations/1")]
 pub async fn recommend_events_for_user_based_on_events_similarity(
     controller: &State<UserController>,
     user_name: &str,
@@ -64,5 +64,16 @@ pub async fn recommend_events_for_user_based_on_events_similarity(
     controller
         .user_event_service
         .recommend_events_for_user_based_on_events_similarity(user_name)
+        .await
+}
+
+#[get("/user/<user_name>/recommendations/2")]
+pub async fn recommend_events_for_user_based_on_users_similarity(
+    controller: &State<UserController>,
+    user_name: &str,
+) -> ApiResponse<Vec<Event>> {
+    controller
+        .user_event_service
+        .recommend_events_for_user_based_on_users_similarity(user_name)
         .await
 }

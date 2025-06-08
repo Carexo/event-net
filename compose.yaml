@@ -11,6 +11,7 @@ services:
     env_file: ".env"
     environment:
         - NEO4J_AUTH=neo4j/${DB_PASSWORD}
+        - NEO4J_PLUGINS=["graph-data-science"]
     ports:
       - "7474:7474"
       - "7687:7687"

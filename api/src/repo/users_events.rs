@@ -130,6 +130,37 @@ impl UserEventRepository {
         Ok(events)
     }
 
+    pub async fn recommend_events_for_user_based_on_users_similarity(
+        &self,
+        user_name: &str,
+    ) -> Result<Vec<Event>, RepoError> {
+        let mut rows = self.graph.execute(
+            query(
+                "
+                MATCH (u:User {name: $n})-[r:REGISTERED_TO]->(e:Event)
+                WITH COLLECT(e) AS events, u
+                MATCH (u)-[s:SIMILAR]->(:User)-[:REGISTERED_TO]->(ee:Event WHERE ee.startDatetime > datetime() AND (NOT ee  IN events))
+                WITH DISTINCT ee
+                OPTIONAL MATCH (ee)-[:HAS]->(k:EventKeyword)
+                RETURN
+                   ee.id               AS eventId,
+                   ee.name             AS eventName,
+                   ee.startDatetime    AS start,
+                   collect(k.name)    AS keywords;
+                "
+            ).param("n", user_name)
+        ).await.map_err(|e| Other(e.to_string()))?;
+        let mut events = Vec::<Event>::new();
+        while let Some(row) = match rows.next().await {
+            Ok(r) => r,
+            Err(e) => return Err(Other(e.to_string())),
+        } {
+            let event: Event = Event::from_row(&row).map_err(|e| Other(e.to_string()))?;
+            events.push(event);
+        }
+        Ok(events)
+    }
+
     pub async fn is_user_registered_to_event(
         &self,
         user_name: &str,

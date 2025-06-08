@@ -136,6 +136,28 @@ impl UserEventService {
         }
     }
 
+    pub async fn recommend_events_for_user_based_on_users_similarity(
+        &self,
+        user_name: &str,
+    ) -> ApiResponse<Vec<Event>> {
+        match self.user_service.get_one(user_name).await {
+            MessageOnly {
+                message: m,
+                status: s,
+            } => return ApiResponse::message_only(m, s),
+            _ => {}
+        };
+
+        match self
+            .user_event_repo
+            .recommend_events_for_user_based_on_users_similarity(user_name)
+            .await
+        {
+            Ok(events) => ApiResponse::success(events, "Events are ready".to_string()),
+            Err(e) => ApiResponse::message_only(e.to_string(), e.status()),
+        }
+    }
+
     pub async fn is_user_registered_to_event(
         &self,
         user_name: &str,

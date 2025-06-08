@@ -1,9 +1,7 @@
 use crate::models::event::{Event, EventUpdate};
-use neo4rs::Graph;
 use rocket::State;
 use std::sync::Arc;
 
-use crate::repo::events::EventRepository;
 use crate::services::events::EventService;
 use crate::services::users_events::UserEventService;
 use crate::utils::api_response::ApiResponse;
