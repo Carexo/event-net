@@ -141,15 +141,11 @@ impl UserEventService {
         user_name: &str,
     ) -> ApiResponse<Vec<Event>> {
         match self.user_service.get_one(user_name).await {
-            Success {
-                data: _,
-                message: _,
-                status: _,
-            } => {}
             MessageOnly {
                 message: m,
                 status: s,
             } => return ApiResponse::message_only(m, s),
+            _ => {}
         };
 
         match self
