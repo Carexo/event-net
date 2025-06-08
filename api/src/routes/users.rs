@@ -2,7 +2,9 @@ use crate::models::event::Event;
 use crate::models::user::User;
 use crate::services::users::UserService;
 use crate::services::users_events::UserEventService;
-use crate::utils::api_response::ApiResponse;
+use crate::utils::api_response::{ApiResponse, PaginatedItemsResponse};
+use crate::utils::pagination::PaginationParams;
+use neo4rs::Graph;
 use rocket::{Route, State};
 use std::sync::Arc;
 
@@ -35,9 +37,12 @@ pub async fn get_one(controller: &State<UserController>, user_name: &str) -> Api
     controller.user_service.get_one(user_name).await
 }
 
-#[get("/users")]
-pub async fn get_all(controller: &State<UserController>) -> ApiResponse<Vec<User>> {
-    controller.user_service.get_all().await
+#[get("/users?<pagination..>")]
+pub async fn get_all(
+    pagination: Option<PaginationParams>,
+    controller: &State<UserController>,
+) -> PaginatedItemsResponse<User> {
+    controller.user_service.get_all(pagination).await
 }
 
 #[get("/user/<user_name>/events")]

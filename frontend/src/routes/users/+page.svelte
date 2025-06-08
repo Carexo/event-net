@@ -1,8 +1,10 @@
 <script lang="ts">
     import type {PageProps} from './$types';
-    import {Heading, Card, Button} from "flowbite-svelte";
-    import { selectedUser, selectUser } from '$lib/stores/userStore';
-
+    import {Card, Heading} from "flowbite-svelte";
+    import { PaginationNav } from "flowbite-svelte";
+    import {ArrowLeftOutline, ArrowRightOutline} from "flowbite-svelte-icons";
+    import {selectedUser, selectUser} from '$lib/stores/userStore';
+    import {goto} from '$app/navigation';
 
     let {data}: PageProps = $props();
 
@@ -12,6 +14,10 @@
 
     function handleSelectUser(userName: string) {
         selectUser(userName);
+    }
+
+    function handlePageChange(page: number) {
+        goto(`/users?page=${page}`);
     }
 </script>
 
@@ -45,6 +51,24 @@
                     </Card>
                 {/each}
             </div>
+
         </section>
+
+        <div class="mt-6 ">
+            <PaginationNav currentPage={data.pagination.page} totalPages={data.pagination.pages} onPageChange={handlePageChange}>
+                {#snippet prevContent()}
+                    <span class="sr-only">Previous</span>
+                    <ArrowLeftOutline class="h-5 w-5"/>
+                {/snippet}
+                {#snippet nextContent()}
+                    <span class="sr-only">Next</span>
+                    <ArrowRightOutline class="h-5 w-5"/>
+                {/snippet}
+            </PaginationNav>
+            <p class="mt-2.5 text-sm text-gray-600">
+                Showing page {data.pagination.page} of {data.pagination.pages}
+                ({data.pagination.total} total users)
+            </p>
+        </div>
     {/if}
 </div>

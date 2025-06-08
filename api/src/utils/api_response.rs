@@ -2,15 +2,27 @@ use rocket::http::Status;
 use rocket::response::Responder;
 use rocket::serde::json::Json;
 use serde::Serialize;
+use crate::utils::pagination::PaginatedResponse;
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(untagged)]
 pub enum ApiResponse<T> {
     Success { data: T, message: String, #[serde(skip)] status: Status },
     MessageOnly { message: String, #[serde(skip)] status: Status },
+    Paginated {data: PaginatedResponse<T>, message: String, #[serde(skip)] status: Status}
 }
 
+pub type PaginatedItemsResponse<T> = ApiResponse<T>;
+
 impl<T: Serialize> ApiResponse<T> {
+   pub fn paginated(data : PaginatedResponse<T>, message: impl Into<String>) -> Self {
+       Self::Paginated {
+           data,
+           message: message.into(),
+           status: Status::Ok
+       }
+   }
+
     pub fn success(data: T, message: impl Into<String>) -> Self {
         Self::Success {
             data,
@@ -32,6 +44,7 @@ impl<'r, T: Serialize> Responder<'r, 'static> for ApiResponse<T> {
         let status = match &self {
             Self::Success { status, .. } => *status,
             Self::MessageOnly { status, .. } => *status,
+            Self::Paginated {status, ..} => *status
         };
 
         let json_response = Json(self);
