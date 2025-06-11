@@ -104,6 +104,13 @@ impl Neo4jConnection {
 
 ---
 
+## Model danych
+
+> Właściwości oznaczone (*) są wymagane i unikalne
+
+![data model](./graph.svg)
+
+
 ## Zapytania do Bazy Danych (Cypher) 🔍
 
 Poniżej znajdują się kluczowe zapytania Cypher używane w aplikacji do zarządzania danymi w grafie Neo4j.
